@@ -22,8 +22,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black ${
-        scrolled ? "border-b border-neutral-800 shadow-sm" : ""
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "border-b border-neutral-800/90 bg-black/85 backdrop-blur-md shadow-sm" : "bg-black"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -64,7 +64,14 @@ export default function Navbar() {
         </ul>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2 lg:gap-3">
+          <Link
+            href="/app"
+            className="text-sm font-semibold text-[#00FF85] border border-[#00FF85]/35 px-3 py-2 lg:px-4 rounded-sm hover:bg-[#00FF85]/10 transition-colors whitespace-nowrap"
+            style={{ fontFamily: "var(--font-dm-sans)" }}
+          >
+            Open app
+          </Link>
           <Link
             href="#waitlist"
             className="btn-primary text-sm px-5 py-2.5"
@@ -95,7 +102,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ${
-          open ? "max-h-80 border-b border-[#1C2535]" : "max-h-0"
+          open ? "max-h-[22rem] border-b border-[#1C2535]" : "max-h-0"
         } bg-black/95 backdrop-blur-md`}
       >
         <ul className="px-4 py-4 flex flex-col gap-4">
@@ -110,6 +117,15 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/app"
+              className="block text-[#00FF85] font-semibold text-sm py-1"
+              onClick={() => setOpen(false)}
+            >
+              Open app →
+            </Link>
+          </li>
           <li className="pt-2">
             <Link
               href="#waitlist"

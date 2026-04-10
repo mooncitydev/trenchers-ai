@@ -18,6 +18,19 @@ const config: Config = {
         cyan: "#00D4FF",
         text: "#E8EDF5",
         muted: "#5A6478",
+        /** In-app terminal: calmer surfaces + readable grays (landing unchanged) */
+        trench: {
+          bg: "#080A0F",
+          panel: "#0C1018",
+          raised: "#101820",
+          "raised-hover": "#141C28",
+          line: "#1A2434",
+          "line-subtle": "#141A24",
+          label: "#8B95A8",
+          dim: "#5C6678",
+          accent: "#00FF85",
+          "accent-soft": "rgba(0, 255, 133, 0.12)",
+        },
       },
       fontFamily: {
         display: ["var(--font-bebas)", "sans-serif"],

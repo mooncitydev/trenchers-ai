@@ -2,8 +2,10 @@
 import type { CSSProperties } from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import TokenAvatar from "@/components/TokenAvatar";
+import { stableImageIndex } from "@/lib/tokenMemeImages";
 
-const BASE_TOKENS = [
+const BASE_TOKENS_RAW = [
   { name: "PEPE2",    sym: "P",  price: "$0.0000043", change: "+184%", vol: "$891K",  mc: "$4.2M",  holders: "1,240",  up: true,  age: "2m",  safe: true  },
   { name: "WOJAK",    sym: "W",  price: "$0.0000012", change: "+67%",  vol: "$412K",  mc: "$1.8M",  holders: "654",    up: true,  age: "8m",  safe: true  },
   { name: "BONK2",    sym: "B",  price: "$0.000091",  change: "-12%",  vol: "$2.1M",  mc: "$12.4M", holders: "8,912",  up: false, age: "14m", safe: true  },
@@ -12,7 +14,14 @@ const BASE_TOKENS = [
   { name: "FWOG",     sym: "F",  price: "$0.0000031", change: "-8%",   vol: "$340K",  mc: "$3.1M",  holders: "2,087",  up: false, age: "31m", safe: true  },
   { name: "PONKE",    sym: "P",  price: "$0.000014",  change: "+92%",  vol: "$720K",  mc: "$5.1M",  holders: "1,876",  up: true,  age: "45m", safe: true  },
   { name: "SLERF",    sym: "S",  price: "$0.000003",  change: "-22%",  vol: "$180K",  mc: "$980K",  holders: "502",    up: false, age: "1h",  safe: false },
-];
+] as const;
+
+type FeedToken = (typeof BASE_TOKENS_RAW)[number] & { imageIndex: number };
+
+const BASE_TOKENS: FeedToken[] = BASE_TOKENS_RAW.map((t) => ({
+  ...t,
+  imageIndex: stableImageIndex(t.name),
+}));
 
 const TABS = ["All", "New (<30m)", "Trending", "Safe Only"];
 
@@ -139,16 +148,12 @@ export default function LiveFeed() {
                 {/* Mobile */}
                 <div className="sm:hidden px-4 py-3 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className="w-8 h-8 shrink-0 flex items-center justify-center text-xs font-bold"
-                      style={{
-                        background: t.up ? "rgba(0,255,133,0.1)" : "rgba(255,59,59,0.1)",
-                        color: t.up ? "#00FF85" : "#FF3B3B",
-                        ...mono,
-                      }}
-                    >
-                      {t.sym}
-                    </div>
+                    <TokenAvatar
+                      imageIndex={t.imageIndex}
+                      fallbackLetter={t.sym}
+                      size="lg"
+                      up={t.up}
+                    />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[#C8D0DC] text-sm font-semibold" style={mono}>
@@ -196,16 +201,12 @@ export default function LiveFeed() {
                 {/* Desktop — one grid row, seven columns */}
                 <div className="hidden sm:grid px-4 py-2.5 items-center" style={desktopFeedCols}>
                   <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className="w-7 h-7 shrink-0 flex items-center justify-center text-[10px] font-bold"
-                      style={{
-                        background: t.up ? "rgba(0,255,133,0.1)" : "rgba(255,59,59,0.1)",
-                        color: t.up ? "#00FF85" : "#FF3B3B",
-                        ...mono,
-                      }}
-                    >
-                      {t.sym}
-                    </div>
+                    <TokenAvatar
+                      imageIndex={t.imageIndex}
+                      fallbackLetter={t.sym}
+                      size="md"
+                      up={t.up}
+                    />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[#C8D0DC] text-sm truncate" style={mono}>

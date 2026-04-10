@@ -47,12 +47,13 @@ export default function Footer() {
             </p>
             <ul className="flex flex-col gap-3">
               {[
+                { label: "App", href: "/app" },
                 { label: "Overview", href: "#overview" },
                 { label: "Features", href: "#features" },
                 { label: "How It Works", href: "#how-it-works" },
                 { label: "Ranks", href: "#ranks" },
               ].map((l) => (
-                <li key={l.href}>
+                <li key={l.label}>
                   <Link
                     href={l.href}
                     className="text-[#5A6478] hover:text-[#E8EDF5] text-sm transition-colors"

@@ -8,6 +8,8 @@
   --font-bebas: 'Bebas Neue', sans-serif;
   --font-jetbrains: 'JetBrains Mono', monospace;
   --font-dm-sans: 'DM Sans', sans-serif;
+  /* Design-first assessment: snappy, restrained motion (Framer uses same curve in components) */
+  --ease-terminal: cubic-bezier(0.22, 1, 0.36, 1);
 
   --bg: #060810;
   --surface: #0C1018;
@@ -232,6 +234,35 @@ body {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ── App terminal: focus + scroll (accessibility) ── */
+.terminal-app :where(a, button, input, select, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid rgba(0, 255, 133, 0.45);
+  outline-offset: 2px;
+}
+
+.terminal-app .scrollbar-stable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--trench-scrollbar-thumb, #2A3548) transparent;
+}
+
+.terminal-app .scrollbar-stable::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.terminal-app .scrollbar-stable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-app .scrollbar-stable::-webkit-scrollbar-thumb {
+  background: #2A3548;
+  border-radius: 3px;
+}
+
+.terminal-app .scrollbar-stable::-webkit-scrollbar-thumb:hover {
+  background: #3D4A5F;
 }
 
 /* ── Mobile tweaks ── */

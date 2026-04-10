@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import TokenAvatar from "@/components/TokenAvatar";
+import { stableImageIndex } from "@/lib/tokenMemeImages";
 
 const TOKENS = [
   { name: "PEPE2",   price: "$0.0000043", change: "+184%", vol: "$891K",  mc: "$4.2M",  up: true,  age: "2m" },
@@ -9,7 +12,7 @@ const TOKENS = [
   { name: "MOODENG", price: "$0.0000089", change: "+341%", vol: "$204K",  mc: "$890K",  up: true,  age: "1m" },
   { name: "GOAT",    price: "$0.000067",  change: "+28%",  vol: "$1.4M",  mc: "$6.7M",  up: true,  age: "22m" },
   { name: "FWOG",    price: "$0.0000031", change: "-8%",   vol: "$340K",  mc: "$3.1M",  up: false, age: "31m" },
-];
+].map((t) => ({ ...t, imageIndex: stableImageIndex(t.name) }));
 
 const STATS = [
   { value: "<200ms", label: "Execution" },
@@ -89,14 +92,12 @@ function DashboardMockup() {
               : "transparent",
           }}>
           <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-[9px] font-bold"
-              style={{
-                background: t.up ? "rgba(0,255,133,0.1)" : "rgba(255,59,59,0.1)",
-                color: t.up ? "#00FF85" : "#FF3B3B",
-                fontFamily: "var(--font-jetbrains)",
-              }}>
-              {t.name[0]}
-            </div>
+            <TokenAvatar
+              imageIndex={t.imageIndex}
+              fallbackLetter={t.name}
+              size="sm"
+              up={t.up}
+            />
             <span style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px", color: "#C8D0DC" }}>{t.name}</span>
             <span style={{ fontFamily: "var(--font-jetbrains)", fontSize: "8px", color: "#1C2535" }}>{t.age}</span>
           </div>
@@ -162,12 +163,17 @@ export default function Hero() {
 
           {/* LEFT — copy */}
           <div>
-            <div className="inline-flex items-center gap-2 mb-5 animate-float-up" style={{ opacity: 0, animationFillMode: "forwards" }}>
+            <motion.div
+              className="inline-flex items-center gap-2 mb-5"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
               <span className="tag">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00FF85] animate-pulse-dot" />
-                Early Access · Solana Mainnet
+                Solana trading terminal · Early access
               </span>
-            </div>
+            </motion.div>
 
             <h1 className="leading-none tracking-wide mb-4 animate-float-up delay-100"
               style={{
@@ -188,20 +194,24 @@ export default function Hero() {
               style={{
                 fontFamily: "var(--font-dm-sans)",
                 fontSize: "clamp(15px, 2vw, 18px)",
-                lineHeight: 1.6,
-                maxWidth: "400px",
+                lineHeight: 1.65,
+                maxWidth: "440px",
                 opacity: 0,
                 animationFillMode: "forwards",
               }}>
-              AI-powered Solana terminal. Snipe new tokens, copy whale wallets,
-              execute in{" "}
-              <span className="text-[#E8EDF5] font-semibold">under 200ms</span>{" "}
-              before anyone else sees the chart.
+              Snipe launches, copy smart wallets, and manage positions in one workspace — built for{" "}
+              <span className="text-[#E8EDF5] font-semibold">speed</span>,{" "}
+              <span className="text-[#E8EDF5] font-semibold">density</span>, and{" "}
+              <span className="text-[#E8EDF5] font-semibold">trust</span>
+              {" "}(the bar real traders set). Execute in{" "}
+              <span className="text-[#E8EDF5] font-semibold">under 200ms</span> when the market moves.
             </p>
 
-            {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-10 animate-float-up delay-300"
-              style={{ opacity: 0, animationFillMode: "forwards" }}>
+            {/* Primary CTA */}
+            <div
+              className="flex flex-col sm:flex-row flex-wrap gap-3 mb-4 animate-float-up delay-300"
+              style={{ opacity: 0, animationFillMode: "forwards" }}
+            >
               <Link href="#waitlist" className="btn-primary"
                 style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
                 Get Early Access
@@ -209,21 +219,50 @@ export default function Hero() {
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
-              <Link href="#overview" className="btn-ghost text-sm">See How It Works</Link>
+              <Link href="#how-it-works" className="btn-ghost text-sm sm:inline-flex">How It Works</Link>
             </div>
+            <p
+              className="text-[#3d4a5c] text-xs sm:text-sm mb-10 max-w-md animate-float-up delay-300"
+              style={{
+                fontFamily: "var(--font-dm-sans)",
+                opacity: 0,
+                animationFillMode: "forwards",
+              }}
+            >
+              Try the terminal prototype (scanner, tracker, portfolio, sniper):{" "}
+              <Link
+                href="/app"
+                className="text-[#00FF85] font-semibold hover:text-[#7DFFC0] underline-offset-4 hover:underline transition-colors"
+              >
+                Open app →
+              </Link>
+            </p>
 
-            {/* Stats row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 animate-float-up delay-400"
-              style={{ opacity: 0, animationFillMode: "forwards" }}>
+            {/* Stats row — staggered motion (assessment: purposeful micro-interaction) */}
+            <motion.div
+              className="grid grid-cols-2 sm:grid-cols-4 gap-2"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: { transition: { staggerChildren: 0.07, delayChildren: 0.45 } },
+              }}
+            >
               {STATS.map((s) => (
-                <div key={s.label} className="stat-chip">
+                <motion.div
+                  key={s.label}
+                  className="stat-chip"
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+                  }}
+                >
                   <span className="text-[#00FF85] font-bold text-lg leading-none mb-0.5"
                     style={{ fontFamily: "var(--font-jetbrains)" }}>{s.value}</span>
                   <span className="text-[10px] uppercase tracking-wider"
                     style={{ fontFamily: "var(--font-jetbrains)", color: "#2A3545" }}>{s.label}</span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* RIGHT — live dashboard */}
