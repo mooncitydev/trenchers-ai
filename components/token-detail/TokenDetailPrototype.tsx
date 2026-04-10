@@ -1,8 +1,37 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import TokenAvatar from "@/components/TokenAvatar";
 import { stableImageIndex } from "@/lib/tokenMemeImages";
-import TokenTradePanel from "@/components/token-detail/TokenTradePanel";
+
+function TokenTradePanelSkeleton() {
+  return (
+    <aside
+      className="w-full lg:w-[340px] flex-shrink-0 flex flex-col h-full min-h-0 border-t lg:border-t-0 border-trench-line-subtle bg-trench-bg animate-pulse"
+      aria-hidden
+    >
+      <div className="p-4 border-b border-trench-line flex-shrink-0 bg-trench-panel/50 space-y-3">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="h-7 rounded-sm bg-trench-raised/80" />
+          <div className="h-7 rounded-sm bg-trench-raised/80" />
+          <div className="h-7 rounded-sm bg-trench-raised/80" />
+        </div>
+        <div className="h-9 rounded bg-trench-raised/80" />
+      </div>
+      <div className="flex-1 p-4 space-y-4">
+        <div className="h-24 rounded-lg bg-trench-raised/50" />
+        <div className="h-10 rounded bg-trench-raised/80" />
+        <div className="h-10 rounded bg-trench-raised/80" />
+      </div>
+    </aside>
+  );
+}
+
+const TokenTradePanel = dynamic(
+  () => import("@/components/token-detail/TokenTradePanel"),
+  { ssr: false, loading: () => <TokenTradePanelSkeleton /> },
+);
+
 export default function TokenDetailPrototype({ mint }: { mint: string }) {
   const label = useMemo(
     () => (mint.length > 12 ? `${mint.slice(0, 6)}…${mint.slice(-4)}` : mint),
