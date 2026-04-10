@@ -1,11 +1,5 @@
 import type { SVGProps } from "react";
-
-/** One visual language: 24×24, 1.5px stroke, round caps */
-function IconBase({
-  children,
-  className,
-  ...rest
-}: SVGProps<SVGSVGElement>) {
+function IconBase({ children, className, ...rest }: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -159,7 +153,8 @@ export default function ToolsGrid() {
               className="text-[#6B7689] text-[15px] leading-relaxed max-w-[280px] shrink-0 border-l border-[#1C2535] pl-5"
               style={{ fontFamily: "var(--font-dm-sans)" }}
             >
-              Speed, safety, and edge in one terminal — without the toy features.
+              Speed, safety, and edge in one terminal — without the toy
+              features.
             </p>
           </div>
         </div>

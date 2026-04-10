@@ -6,8 +6,6 @@ interface Props {
   active: PortfolioMainTab;
   onChange: (tab: PortfolioMainTab) => void;
 }
-
-/** Same IA as caesarx `PortfolioNavigation` — Spot vs Wallet. */
 export default function PortfolioNavigation({ active, onChange }: Props) {
   return (
     <div className="border-b border-trench-line-subtle px-4 sm:px-6 bg-trench-bg flex-shrink-0">

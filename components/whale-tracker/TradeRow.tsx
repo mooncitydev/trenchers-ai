@@ -11,26 +11,29 @@ interface Props {
 
 const PLATFORM_COLOR: Record<string, string> = {
   "Pump.fun": "#FF6535",
-  "Raydium":  "#00D4FF",
-  "Jupiter":  "#A78BFA",
-  "PumpSwap": "#FFB800",
+  Raydium: "#00D4FF",
+  Jupiter: "#A78BFA",
+  PumpSwap: "#FFB800",
 };
 
 function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
-  const isBuy   = trade.type === "buy";
+  const isBuy = trade.type === "buy";
   const persona = PERSONA_CONFIG[trade.persona];
-  const hasPnl  = trade.pnlUsd !== undefined;
-  const pnlUp   = (trade.pnlUsd ?? 0) >= 0;
+  const hasPnl = trade.pnlUsd !== undefined;
+  const pnlUp = (trade.pnlUsd ?? 0) >= 0;
 
   return (
     <div
       className="grid items-center px-4 min-h-[56px] py-2 border-b border-trench-line-subtle transition-all duration-300 group hover:bg-trench-raised-hover cursor-default"
       style={{
         gridTemplateColumns: "120px 80px 90px 100px 100px 80px 70px",
-        background: isNew ? (isBuy ? "rgba(52,211,153,0.05)" : "rgba(248,113,113,0.05)") : "transparent",
+        background: isNew
+          ? isBuy
+            ? "rgba(52,211,153,0.05)"
+            : "rgba(248,113,113,0.05)"
+          : "transparent",
       }}
     >
-      {/* Wallet */}
       <div className="min-w-0">
         <div className="flex items-center gap-1.5 mb-0.5">
           <span
@@ -44,12 +47,14 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
             {trade.persona.split(" ")[0]}
           </span>
         </div>
-        <span className="text-[10px] text-trench-label font-mono truncate block" style={{ fontFamily: "var(--font-jetbrains)" }}>
+        <span
+          className="text-[10px] text-trench-label font-mono truncate block"
+          style={{ fontFamily: "var(--font-jetbrains)" }}
+        >
           {trade.walletAddress}
         </span>
       </div>
 
-      {/* Type */}
       <div className="flex items-center">
         <span
           className="text-[10px] px-2 py-0.5 font-bold uppercase"
@@ -64,7 +69,6 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
         </span>
       </div>
 
-      {/* Token */}
       <span
         className="text-[12px] font-semibold text-[#D0D8E8]"
         style={{ fontFamily: "var(--font-jetbrains)" }}
@@ -72,7 +76,6 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
         ${trade.token}
       </span>
 
-      {/* Amount */}
       <div>
         <p
           className="text-[11px] text-[#8892A4] tabular-nums"
@@ -80,12 +83,14 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
         >
           {trade.amountSol.toFixed(2)} SOL
         </p>
-        <p className="text-[9px] text-trench-dim tabular-nums" style={{ fontFamily: "var(--font-jetbrains)" }}>
+        <p
+          className="text-[9px] text-trench-dim tabular-nums"
+          style={{ fontFamily: "var(--font-jetbrains)" }}
+        >
           ≈ {fmtUsd(trade.valueUsd)}
         </p>
       </div>
 
-      {/* PnL (sells only) */}
       <div>
         {hasPnl ? (
           <>
@@ -96,7 +101,8 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
                 color: pnlUp ? "#00FF85" : "#FF3B3B",
               }}
             >
-              {pnlUp ? "+" : ""}{fmtUsd(trade.pnlUsd!)}
+              {pnlUp ? "+" : ""}
+              {fmtUsd(trade.pnlUsd!)}
             </p>
             <p
               className="text-[9px] tabular-nums"
@@ -106,15 +112,20 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
                 opacity: 0.7,
               }}
             >
-              {pnlUp ? "+" : ""}{trade.pnlPct?.toFixed(1)}%
+              {pnlUp ? "+" : ""}
+              {trade.pnlPct?.toFixed(1)}%
             </p>
           </>
         ) : (
-          <span className="text-[10px] text-trench-dim" style={{ fontFamily: "var(--font-jetbrains)" }}>—</span>
+          <span
+            className="text-[10px] text-trench-dim"
+            style={{ fontFamily: "var(--font-jetbrains)" }}
+          >
+            —
+          </span>
         )}
       </div>
 
-      {/* Platform + time */}
       <div>
         <p
           className="text-[9px] font-semibold mb-0.5"
@@ -125,12 +136,14 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
         >
           {trade.platform}
         </p>
-        <p className="text-[9px] text-trench-dim" style={{ fontFamily: "var(--font-jetbrains)" }}>
+        <p
+          className="text-[9px] text-trench-dim"
+          style={{ fontFamily: "var(--font-jetbrains)" }}
+        >
           {timeAgo}
         </p>
       </div>
 
-      {/* Copy button */}
       <div className="flex justify-end">
         {isBuy && (
           <button
@@ -140,7 +153,9 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
             style={{
               fontFamily: "var(--font-jetbrains)",
               color: trade.copied ? "#5C6678" : "#00FF85",
-              background: trade.copied ? "rgba(92,102,120,0.15)" : "rgba(0,255,133,0.1)",
+              background: trade.copied
+                ? "rgba(92,102,120,0.15)"
+                : "rgba(0,255,133,0.1)",
               border: `1px solid ${trade.copied ? "rgba(92,102,120,0.35)" : "rgba(0,255,133,0.28)"}`,
               cursor: trade.copied ? "default" : "pointer",
             }}
@@ -155,10 +170,10 @@ function TradeRowInner({ trade, onCopy, timeAgo, isNew }: Props) {
 
 function areTradeRowsEqual(prev: Props, next: Props) {
   return (
-    prev.trade.id      === next.trade.id   &&
-    prev.trade.copied  === next.trade.copied &&
-    prev.timeAgo       === next.timeAgo    &&
-    prev.isNew         === next.isNew
+    prev.trade.id === next.trade.id &&
+    prev.trade.copied === next.trade.copied &&
+    prev.timeAgo === next.timeAgo &&
+    prev.isNew === next.isNew
   );
 }
 

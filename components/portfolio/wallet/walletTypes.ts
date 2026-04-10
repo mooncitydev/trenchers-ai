@@ -1,4 +1,3 @@
-/** Aligned with caesarx portfolio wallet shape — mock-only in Trenchers prototype. */
 export type PortfolioWalletRow = {
   publicKey: string;
   label: string;

@@ -3,7 +3,14 @@ import { useState, useMemo } from "react";
 import { Token } from "./useTokenSimulator";
 import { TokenRow } from "./TokenRow";
 
-type SortKey = "price" | "change1h" | "change24h" | "volume24h" | "mcap" | "holders" | "ageMinutes";
+type SortKey =
+  | "price"
+  | "change1h"
+  | "change24h"
+  | "volume24h"
+  | "mcap"
+  | "holders"
+  | "ageMinutes";
 type SortDir = "asc" | "desc";
 export type FilterTab = "all" | "new" | "trending" | "safe" | "watchlist";
 
@@ -23,23 +30,26 @@ interface ColDef {
 }
 
 const COLUMNS: ColDef[] = [
-  { key: null,           label: "#",       align: "left",   width: "28px"  },
-  { key: null,           label: "Token",   align: "left",   width: "1fr"   },
-  { key: "price",        label: "Price",   align: "right",  width: "110px" },
-  { key: "change1h",     label: "1h %",    align: "right",  width: "80px"  },
-  { key: "change24h",    label: "24h %",   align: "right",  width: "80px"  },
-  { key: "volume24h",    label: "Volume",  align: "right",  width: "90px"  },
-  { key: "mcap",         label: "MCap",    align: "right",  width: "90px"  },
-  { key: "holders",      label: "Holders", align: "right",  width: "72px"  },
-  { key: null,           label: "★",       align: "center", width: "56px"  },
-  { key: null,           label: "",        align: "right",  width: "56px"  },
+  { key: null, label: "#", align: "left", width: "28px" },
+  { key: null, label: "Token", align: "left", width: "1fr" },
+  { key: "price", label: "Price", align: "right", width: "110px" },
+  { key: "change1h", label: "1h %", align: "right", width: "80px" },
+  { key: "change24h", label: "24h %", align: "right", width: "80px" },
+  { key: "volume24h", label: "Volume", align: "right", width: "90px" },
+  { key: "mcap", label: "MCap", align: "right", width: "90px" },
+  { key: "holders", label: "Holders", align: "right", width: "72px" },
+  { key: null, label: "★", align: "center", width: "56px" },
+  { key: null, label: "", align: "right", width: "56px" },
 ];
 
 const GRID_COLS = COLUMNS.map((c) => c.width).join(" ");
 
 function SkeletonRow({ i }: { i: number }) {
   return (
-    <div className="grid items-center px-4 h-12 border-b border-trench-line-subtle" style={{ gridTemplateColumns: GRID_COLS }}>
+    <div
+      className="grid items-center px-4 h-12 border-b border-trench-line-subtle"
+      style={{ gridTemplateColumns: GRID_COLS }}
+    >
       {COLUMNS.map((_, j) => (
         <div
           key={j}
@@ -51,7 +61,13 @@ function SkeletonRow({ i }: { i: number }) {
   );
 }
 
-export default function TokenTable({ tokens, activeTab, search, onFavorite, loading }: Props) {
+export default function TokenTable({
+  tokens,
+  activeTab,
+  search,
+  onFavorite,
+  loading,
+}: Props) {
   const [sortKey, setSortKey] = useState<SortKey>("change24h");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
@@ -67,20 +83,14 @@ export default function TokenTable({ tokens, activeTab, search, onFavorite, load
 
   const visible = useMemo(() => {
     let list = [...tokens];
-
-    // Filter
-    if (activeTab === "new")       list = list.filter((t) => t.ageMinutes < 30);
-    if (activeTab === "trending")  list = list.filter((t) => t.trending);
-    if (activeTab === "safe")      list = list.filter((t) => t.safe);
+    if (activeTab === "new") list = list.filter((t) => t.ageMinutes < 30);
+    if (activeTab === "trending") list = list.filter((t) => t.trending);
+    if (activeTab === "safe") list = list.filter((t) => t.safe);
     if (activeTab === "watchlist") list = list.filter((t) => t.favorited);
-
-    // Search
     if (search.trim()) {
       const q = search.toLowerCase();
       list = list.filter((t) => t.name.toLowerCase().includes(q));
     }
-
-    // Sort
     list.sort((a, b) => {
       const av = a[sortKey] as number;
       const bv = b[sortKey] as number;
@@ -92,7 +102,6 @@ export default function TokenTable({ tokens, activeTab, search, onFavorite, load
 
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
-      {/* Column headers */}
       <div
         className="grid items-center px-4 h-10 border-b border-trench-line-subtle flex-shrink-0 bg-trench-panel/80"
         style={{ gridTemplateColumns: GRID_COLS }}
@@ -112,25 +121,37 @@ export default function TokenTable({ tokens, activeTab, search, onFavorite, load
           >
             {col.label}
             {col.key && sortKey === col.key && (
-              <span className="text-trench-accent opacity-90">{sortDir === "desc" ? "▼" : "▲"}</span>
+              <span className="text-trench-accent opacity-90">
+                {sortDir === "desc" ? "▼" : "▲"}
+              </span>
             )}
           </button>
         ))}
       </div>
 
-      {/* Rows — scrollable */}
       <div className="flex-1 overflow-y-auto scrollbar-stable bg-trench-bg">
         {loading ? (
-          Array.from({ length: 15 }).map((_, i) => <SkeletonRow key={i} i={i} />)
+          Array.from({ length: 15 }).map((_, i) => (
+            <SkeletonRow key={i} i={i} />
+          ))
         ) : visible.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-52 gap-3 px-4">
-            <div className="h-12 w-12 rounded-full border border-trench-line bg-trench-panel flex items-center justify-center text-trench-dim text-lg" aria-hidden>
+            <div
+              className="h-12 w-12 rounded-full border border-trench-line bg-trench-panel flex items-center justify-center text-trench-dim text-lg"
+              aria-hidden
+            >
               ∅
             </div>
-            <p className="text-trench-label text-sm font-medium" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <p
+              className="text-trench-label text-sm font-medium"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               No tokens match filters
             </p>
-            <p className="text-trench-dim text-xs text-center max-w-xs" style={{ fontFamily: "var(--font-jetbrains)" }}>
+            <p
+              className="text-trench-dim text-xs text-center max-w-xs"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
               Try another tab or clear the search field.
             </p>
           </div>
@@ -146,15 +167,20 @@ export default function TokenTable({ tokens, activeTab, search, onFavorite, load
         )}
       </div>
 
-      {/* Footer */}
       <div
         className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 px-4 py-2.5 border-t border-trench-line-subtle flex-shrink-0 bg-trench-panel/80"
         style={{ fontFamily: "var(--font-jetbrains)", fontSize: "10px" }}
       >
         <span className="text-trench-dim">
-          Showing <span className="text-trench-label tabular-nums">{visible.length}</span> rows · Solana (mock)
+          Showing{" "}
+          <span className="text-trench-label tabular-nums">
+            {visible.length}
+          </span>{" "}
+          rows · Solana (mock)
         </span>
-        <span className="text-trench-accent/90">MEV shield · Jito routing (simulated)</span>
+        <span className="text-trench-accent/90">
+          MEV shield · Jito routing (simulated)
+        </span>
       </div>
     </div>
   );

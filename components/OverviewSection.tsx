@@ -79,11 +79,7 @@ function TerminalBlock({
         <div className="w-2.5 h-2.5 rounded-full bg-[#00FF85]/50" />
       </div>
       {lines.map((l, i) => (
-        <p
-          key={i}
-          className="text-xs leading-6"
-          style={{ color: l.color }}
-        >
+        <p key={i} className="text-xs leading-6" style={{ color: l.color }}>
           {l.text}
         </p>
       ))}
@@ -94,14 +90,11 @@ function TerminalBlock({
 export default function OverviewSection() {
   return (
     <section id="overview" className="py-24 sm:py-32">
-      {/* Section label */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-16">
         <p
           className="text-[#00FF85] text-xs uppercase tracking-[0.2em] mb-3"
           style={{ fontFamily: "var(--font-jetbrains)" }}
-        >
-          // Core Features
-        </p>
+        ></p>
         <h2
           className="text-[#E8EDF5] leading-tight"
           style={{
@@ -109,8 +102,8 @@ export default function OverviewSection() {
             fontSize: "clamp(36px, 5vw, 60px)",
           }}
         >
-          Redefining how{" "}
-          <span className="text-[#00FF85]">Solana</span> is traded.
+          Redefining how <span className="text-[#00FF85]">Solana</span> is
+          traded.
         </h2>
       </div>
 
@@ -122,7 +115,6 @@ export default function OverviewSection() {
               f.flip ? "lg:[&>*:first-child]:order-2" : ""
             }`}
           >
-            {/* Text side */}
             <div>
               <span className="tag mb-4 inline-block">{f.tag}</span>
               <h3
@@ -179,7 +171,6 @@ export default function OverviewSection() {
               </div>
             </div>
 
-            {/* Terminal side */}
             <div className="relative">
               <div className="absolute -inset-4 bg-[#00FF85]/3 blur-2xl rounded-full pointer-events-none" />
               <TerminalBlock lines={f.terminal} />

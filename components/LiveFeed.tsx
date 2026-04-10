@@ -6,14 +6,102 @@ import TokenAvatar from "@/components/TokenAvatar";
 import { stableImageIndex } from "@/lib/tokenMemeImages";
 
 const BASE_TOKENS_RAW = [
-  { name: "PEPE2",    sym: "P",  price: "$0.0000043", change: "+184%", vol: "$891K",  mc: "$4.2M",  holders: "1,240",  up: true,  age: "2m",  safe: true  },
-  { name: "WOJAK",    sym: "W",  price: "$0.0000012", change: "+67%",  vol: "$412K",  mc: "$1.8M",  holders: "654",    up: true,  age: "8m",  safe: true  },
-  { name: "BONK2",    sym: "B",  price: "$0.000091",  change: "-12%",  vol: "$2.1M",  mc: "$12.4M", holders: "8,912",  up: false, age: "14m", safe: true  },
-  { name: "MOODENG",  sym: "M",  price: "$0.0000089", change: "+341%", vol: "$204K",  mc: "$890K",  holders: "421",    up: true,  age: "1m",  safe: false },
-  { name: "GOAT",     sym: "G",  price: "$0.000067",  change: "+28%",  vol: "$1.4M",  mc: "$6.7M",  holders: "3,102",  up: true,  age: "22m", safe: true  },
-  { name: "FWOG",     sym: "F",  price: "$0.0000031", change: "-8%",   vol: "$340K",  mc: "$3.1M",  holders: "2,087",  up: false, age: "31m", safe: true  },
-  { name: "PONKE",    sym: "P",  price: "$0.000014",  change: "+92%",  vol: "$720K",  mc: "$5.1M",  holders: "1,876",  up: true,  age: "45m", safe: true  },
-  { name: "SLERF",    sym: "S",  price: "$0.000003",  change: "-22%",  vol: "$180K",  mc: "$980K",  holders: "502",    up: false, age: "1h",  safe: false },
+  {
+    name: "PEPE2",
+    sym: "P",
+    price: "$0.0000043",
+    change: "+184%",
+    vol: "$891K",
+    mc: "$4.2M",
+    holders: "1,240",
+    up: true,
+    age: "2m",
+    safe: true,
+  },
+  {
+    name: "WOJAK",
+    sym: "W",
+    price: "$0.0000012",
+    change: "+67%",
+    vol: "$412K",
+    mc: "$1.8M",
+    holders: "654",
+    up: true,
+    age: "8m",
+    safe: true,
+  },
+  {
+    name: "BONK2",
+    sym: "B",
+    price: "$0.000091",
+    change: "-12%",
+    vol: "$2.1M",
+    mc: "$12.4M",
+    holders: "8,912",
+    up: false,
+    age: "14m",
+    safe: true,
+  },
+  {
+    name: "MOODENG",
+    sym: "M",
+    price: "$0.0000089",
+    change: "+341%",
+    vol: "$204K",
+    mc: "$890K",
+    holders: "421",
+    up: true,
+    age: "1m",
+    safe: false,
+  },
+  {
+    name: "GOAT",
+    sym: "G",
+    price: "$0.000067",
+    change: "+28%",
+    vol: "$1.4M",
+    mc: "$6.7M",
+    holders: "3,102",
+    up: true,
+    age: "22m",
+    safe: true,
+  },
+  {
+    name: "FWOG",
+    sym: "F",
+    price: "$0.0000031",
+    change: "-8%",
+    vol: "$340K",
+    mc: "$3.1M",
+    holders: "2,087",
+    up: false,
+    age: "31m",
+    safe: true,
+  },
+  {
+    name: "PONKE",
+    sym: "P",
+    price: "$0.000014",
+    change: "+92%",
+    vol: "$720K",
+    mc: "$5.1M",
+    holders: "1,876",
+    up: true,
+    age: "45m",
+    safe: true,
+  },
+  {
+    name: "SLERF",
+    sym: "S",
+    price: "$0.000003",
+    change: "-22%",
+    vol: "$180K",
+    mc: "$980K",
+    holders: "502",
+    up: false,
+    age: "1h",
+    safe: false,
+  },
 ] as const;
 
 type FeedToken = (typeof BASE_TOKENS_RAW)[number] & { imageIndex: number };
@@ -24,8 +112,6 @@ const BASE_TOKENS: FeedToken[] = BASE_TOKENS_RAW.map((t) => ({
 }));
 
 const TABS = ["All", "New (<30m)", "Trending", "Safe Only"];
-
-/** Shared desktop columns — use with `className="… sm:grid"` (display must stay Tailwind-only for `hidden`) */
 const desktopFeedCols: CSSProperties = {
   gridTemplateColumns:
     "minmax(0, 1.6fr) minmax(0, 92px) minmax(0, 72px) minmax(0, 88px) minmax(0, 88px) minmax(0, 76px) minmax(0, 76px)",
@@ -49,27 +135,31 @@ export default function LiveFeed() {
   }, [tokens]);
 
   const filtered = tokens.filter((t) => {
-    if (activeTab === 1) return ["1m", "2m", "8m", "14m", "22m"].includes(t.age);
+    if (activeTab === 1)
+      return ["1m", "2m", "8m", "14m", "22m"].includes(t.age);
     if (activeTab === 2) return t.up;
     if (activeTab === 3) return t.safe;
     return true;
   });
 
   return (
-    <section className="py-24 sm:py-32 border-y border-[#1C2535]" style={{ background: "#07090F" }}>
+    <section
+      className="py-24 sm:py-32 border-y border-[#1C2535]"
+      style={{ background: "#07090F" }}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 reveal">
           <div>
             <p
               className="text-[#00FF85] text-xs uppercase tracking-[0.2em] mb-2"
               style={mono}
-            >
-              // Live Market Feed
-            </p>
+            ></p>
             <h2
               className="text-[#E8EDF5] leading-tight"
-              style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(32px, 4vw, 52px)" }}
+              style={{
+                fontFamily: "var(--font-bebas)",
+                fontSize: "clamp(32px, 4vw, 52px)",
+              }}
             >
               See what&apos;s moving{" "}
               <span className="text-[#00FF85]">before CT catches on.</span>
@@ -83,9 +173,14 @@ export default function LiveFeed() {
           </div>
         </div>
 
-        <div className="border border-[#1C2535] overflow-hidden reveal" style={{ background: "#080C14" }}>
-
-          <div className="flex items-center justify-between border-b border-[#1C2535] px-3" style={{ background: "#0A0E18" }}>
+        <div
+          className="border border-[#1C2535] overflow-hidden reveal"
+          style={{ background: "#080C14" }}
+        >
+          <div
+            className="flex items-center justify-between border-b border-[#1C2535] px-3"
+            style={{ background: "#0A0E18" }}
+          >
             <div className="flex flex-wrap">
               {TABS.map((tab, i) => (
                 <button
@@ -96,19 +191,22 @@ export default function LiveFeed() {
                   style={{
                     fontFamily: "var(--font-jetbrains)",
                     color: activeTab === i ? "#00FF85" : "#6B7A8F",
-                    borderBottomColor: activeTab === i ? "#00FF85" : "transparent",
+                    borderBottomColor:
+                      activeTab === i ? "#00FF85" : "transparent",
                   }}
                 >
                   {tab}
                 </button>
               ))}
             </div>
-            <span className="text-[9px] text-[#6B7A8F] pr-2 hidden sm:block" style={mono}>
+            <span
+              className="text-[9px] text-[#6B7A8F] pr-2 hidden sm:block"
+              style={mono}
+            >
               {filtered.length} tokens
             </span>
           </div>
 
-          {/* Column headers — readable contrast */}
           <div
             className="hidden sm:grid px-4 py-2.5 border-b border-[#1C2535] bg-[#0A0E18]/80 items-center"
             style={{
@@ -145,7 +243,6 @@ export default function LiveFeed() {
                     : undefined,
                 }}
               >
-                {/* Mobile */}
                 <div className="sm:hidden px-4 py-3 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <TokenAvatar
@@ -156,7 +253,10 @@ export default function LiveFeed() {
                     />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[#C8D0DC] text-sm font-semibold" style={mono}>
+                        <span
+                          className="text-[#C8D0DC] text-sm font-semibold"
+                          style={mono}
+                        >
                           {t.name}
                         </span>
                         {t.safe && (
@@ -169,16 +269,25 @@ export default function LiveFeed() {
                         )}
                       </div>
                       <div className="flex items-center gap-3 mt-0.5 flex-wrap">
-                        <span className="text-[10px] text-[#9CA8B8]" style={mono}>
+                        <span
+                          className="text-[10px] text-[#9CA8B8]"
+                          style={mono}
+                        >
                           {t.price}
                         </span>
                         <span
                           className="text-[10px] font-bold"
-                          style={{ color: t.up ? "#00FF85" : "#FF3B3B", ...mono }}
+                          style={{
+                            color: t.up ? "#00FF85" : "#FF3B3B",
+                            ...mono,
+                          }}
                         >
                           {t.change}
                         </span>
-                        <span className="text-[9px] text-[#6B7A8F]" style={mono}>
+                        <span
+                          className="text-[9px] text-[#6B7A8F]"
+                          style={mono}
+                        >
                           {t.age} ago
                         </span>
                       </div>
@@ -198,8 +307,10 @@ export default function LiveFeed() {
                   </button>
                 </div>
 
-                {/* Desktop — one grid row, seven columns */}
-                <div className="hidden sm:grid px-4 py-2.5 items-center" style={desktopFeedCols}>
+                <div
+                  className="hidden sm:grid px-4 py-2.5 items-center"
+                  style={desktopFeedCols}
+                >
                   <div className="flex items-center gap-3 min-w-0">
                     <TokenAvatar
                       imageIndex={t.imageIndex}
@@ -209,7 +320,10 @@ export default function LiveFeed() {
                     />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[#C8D0DC] text-sm truncate" style={mono}>
+                        <span
+                          className="text-[#C8D0DC] text-sm truncate"
+                          style={mono}
+                        >
                           {t.name}
                         </span>
                         {t.safe && (
@@ -221,13 +335,19 @@ export default function LiveFeed() {
                           </span>
                         )}
                       </div>
-                      <span className="text-[9px] text-[#6B7A8F] block truncate" style={mono}>
+                      <span
+                        className="text-[9px] text-[#6B7A8F] block truncate"
+                        style={mono}
+                      >
                         {t.age} ago
                       </span>
                     </div>
                   </div>
 
-                  <span className="text-right text-[11px] text-[#C8D0DC] tabular-nums" style={mono}>
+                  <span
+                    className="text-right text-[11px] text-[#C8D0DC] tabular-nums"
+                    style={mono}
+                  >
                     {t.price}
                   </span>
                   <span
@@ -236,13 +356,22 @@ export default function LiveFeed() {
                   >
                     {t.change}
                   </span>
-                  <span className="text-right text-[11px] text-[#9CA8B8] tabular-nums" style={mono}>
+                  <span
+                    className="text-right text-[11px] text-[#9CA8B8] tabular-nums"
+                    style={mono}
+                  >
                     {t.vol}
                   </span>
-                  <span className="text-right text-[11px] text-[#9CA8B8] tabular-nums" style={mono}>
+                  <span
+                    className="text-right text-[11px] text-[#9CA8B8] tabular-nums"
+                    style={mono}
+                  >
                     {t.mc}
                   </span>
-                  <span className="text-right text-[11px] text-[#9CA8B8] tabular-nums" style={mono}>
+                  <span
+                    className="text-right text-[11px] text-[#9CA8B8] tabular-nums"
+                    style={mono}
+                  >
                     {t.holders}
                   </span>
                   <div className="flex justify-end">
@@ -264,7 +393,10 @@ export default function LiveFeed() {
             );
           })}
 
-          <div className="flex items-center justify-between px-4 py-2.5" style={{ background: "#0A0E18" }}>
+          <div
+            className="flex items-center justify-between px-4 py-2.5"
+            style={{ background: "#0A0E18" }}
+          >
             <span className="text-[9px] text-[#5A6478]" style={mono}>
               Showing {filtered.length} of {tokens.length} tokens
             </span>
@@ -277,7 +409,6 @@ export default function LiveFeed() {
             </Link>
           </div>
         </div>
-
       </div>
     </section>
   );

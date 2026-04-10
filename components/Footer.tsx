@@ -6,7 +6,6 @@ export default function Footer() {
     <footer className="border-t border-[#1C2535] bg-[#060810] py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
           <div className="col-span-2 sm:col-span-1">
             <Link
               href="#hero"
@@ -37,7 +36,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Navigation */}
           <div>
             <p
               className="text-[#2A3545] text-xs uppercase tracking-wider mb-4"
@@ -66,7 +64,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Platforms */}
           <div>
             <p
               className="text-[#2A3545] text-xs uppercase tracking-wider mb-4"
@@ -85,12 +82,11 @@ export default function Footer() {
                       {p}
                     </span>
                   </li>
-                )
+                ),
               )}
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
             <p
               className="text-[#2A3545] text-xs uppercase tracking-wider mb-4"
@@ -118,7 +114,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="pt-8 border-t border-[#1C2535] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p
             className="text-[#2A3545] text-xs"
@@ -127,9 +122,7 @@ export default function Footer() {
             © 2025 TrenchersAI — All rights reserved.
           </p>
           <div className="flex items-center gap-1">
-            <span
-              className="w-1.5 h-1.5 rounded-full bg-[#00FF85] animate-pulse-dot"
-            />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00FF85] animate-pulse-dot" />
             <span
               className="text-[#5A6478] text-xs"
               style={{ fontFamily: "var(--font-jetbrains)" }}

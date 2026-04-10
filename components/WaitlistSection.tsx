@@ -10,18 +10,13 @@ export default function WaitlistSection() {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
-    // Simulate submit — replace with real API call
     await new Promise((r) => setTimeout(r, 900));
     setLoading(false);
     setSubmitted(true);
   };
 
   return (
-    <section
-      id="waitlist"
-      className="relative py-24 sm:py-36 overflow-hidden"
-    >
-      {/* Background glow */}
+    <section id="waitlist" className="relative py-24 sm:py-36 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-3xl"
@@ -33,7 +28,6 @@ export default function WaitlistSection() {
       </div>
 
       <div className="relative max-w-2xl mx-auto px-4 sm:px-6 text-center">
-        {/* Label */}
         <div className="flex justify-center mb-5 reveal">
           <span className="tag">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00FF85] animate-pulse-dot" />

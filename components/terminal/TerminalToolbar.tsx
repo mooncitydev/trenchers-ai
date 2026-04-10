@@ -16,24 +16,40 @@ const TABS: { key: FilterTab; label: string }[] = [
   { key: "safe", label: "Safe" },
   { key: "watchlist", label: "Watchlist" },
 ];
-
-/** Filter tabs + search bar for Terminal (used under `/app` shell — no duplicate home/whale links). */
-export default function TerminalToolbar({ activeTab, onTabChange, search, onSearch, tickCount }: Props) {
+export default function TerminalToolbar({
+  activeTab,
+  onTabChange,
+  search,
+  onSearch,
+  tickCount,
+}: Props) {
   return (
     <div className="border-b border-trench-line-subtle flex-shrink-0 bg-trench-bg">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-3 sm:py-0 sm:h-14 border-b border-trench-line-subtle">
         <div>
-          <span className="text-trench-label text-xs font-medium block" style={{ fontFamily: "var(--font-dm-sans)" }}>
+          <span
+            className="text-trench-label text-xs font-medium block"
+            style={{ fontFamily: "var(--font-dm-sans)" }}
+          >
             Market scanner
           </span>
-          <span className="text-[10px] text-trench-dim" style={{ fontFamily: "var(--font-jetbrains)" }}>
+          <span
+            className="text-[10px] text-trench-dim"
+            style={{ fontFamily: "var(--font-jetbrains)" }}
+          >
             Solana · simulated feed
           </span>
         </div>
         <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-end">
-          <div className="hidden sm:flex items-center gap-2" style={{ fontFamily: "var(--font-jetbrains)", fontSize: "10px" }}>
+          <div
+            className="hidden sm:flex items-center gap-2"
+            style={{ fontFamily: "var(--font-jetbrains)", fontSize: "10px" }}
+          >
             <span className="text-trench-dim">Row updates</span>
-            <span className="text-trench-accent tabular-nums transition-all duration-150" key={tickCount}>
+            <span
+              className="text-trench-accent tabular-nums transition-all duration-150"
+              key={tickCount}
+            >
               {tickCount.toLocaleString()}
             </span>
           </div>
@@ -43,7 +59,10 @@ export default function TerminalToolbar({ activeTab, onTabChange, search, onSear
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-trench-accent opacity-40" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-trench-accent" />
             </span>
-            <span className="text-trench-accent text-[10px] font-medium uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains)" }}>
+            <span
+              className="text-trench-accent text-[10px] font-medium uppercase tracking-wider"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
               Live
             </span>
           </div>
@@ -57,8 +76,19 @@ export default function TerminalToolbar({ activeTab, onTabChange, search, onSear
               fill="none"
               aria-hidden
             >
-              <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <circle
+                cx="7"
+                cy="7"
+                r="5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M11 11l3 3"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
             </svg>
             <input
               type="search"

@@ -25,19 +25,23 @@ import {
 function randomMockPubkey(): string {
   const chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
   let s = "";
-  for (let i = 0; i < 44; i++) s += chars[Math.floor(Math.random() * chars.length)];
+  for (let i = 0; i < 44; i++)
+    s += chars[Math.floor(Math.random() * chars.length)];
   return s;
 }
-
-/** Caesarx-style WalletTab: WalletManagerSection + BalancePanel — mock data & actions only. */
 export default function PortfolioWalletTab() {
-  const [wallets, setWallets] = useState<PortfolioWalletRow[]>(INITIAL_MOCK_WALLETS);
-  const [selected, setSelected] = useState<Set<string>>(() => new Set(INITIAL_MOCK_WALLETS.map((w) => w.publicKey)));
+  const [wallets, setWallets] =
+    useState<PortfolioWalletRow[]>(INITIAL_MOCK_WALLETS);
+  const [selected, setSelected] = useState<Set<string>>(
+    () => new Set(INITIAL_MOCK_WALLETS.map((w) => w.publicKey)),
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [showArchived, setShowArchived] = useState(false);
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [focusWallet, setFocusWallet] = useState<string>(INITIAL_MOCK_WALLETS[0].publicKey);
+  const [focusWallet, setFocusWallet] = useState<string>(
+    INITIAL_MOCK_WALLETS[0].publicKey,
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [toast, setToast] = useState<string | null>(null);
@@ -53,7 +57,11 @@ export default function PortfolioWalletTab() {
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setDropdownOpen(false);
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      )
+        setDropdownOpen(false);
     };
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
@@ -64,7 +72,10 @@ export default function PortfolioWalletTab() {
       if (!showArchived && hidden.has(w.publicKey)) return false;
       if (!searchQuery.trim()) return true;
       const q = searchQuery.toLowerCase();
-      return w.label.toLowerCase().includes(q) || w.publicKey.toLowerCase().includes(q);
+      return (
+        w.label.toLowerCase().includes(q) ||
+        w.publicKey.toLowerCase().includes(q)
+      );
     });
   }, [wallets, searchQuery, showArchived, hidden]);
 
@@ -87,12 +98,13 @@ export default function PortfolioWalletTab() {
 
   const totalUsd = totalBalance * SOL_PRICE_USD_MOCK;
 
-  const focused = wallets.find((w) => w.publicKey === focusWallet) ?? wallets[0];
+  const focused =
+    wallets.find((w) => w.publicKey === focusWallet) ?? wallets[0];
   const displaySol =
     selected.size === 0
       ? 0
       : selected.size === 1
-        ? wallets.find((w) => selected.has(w.publicKey))?.balance ?? 0
+        ? (wallets.find((w) => selected.has(w.publicKey))?.balance ?? 0)
         : totalBalance;
   const displayUsd = displaySol * SOL_PRICE_USD_MOCK;
   const headlineSol = focused ? focused.balance : 0;
@@ -112,7 +124,9 @@ export default function PortfolioWalletTab() {
   const [importOpen, setImportOpen] = useState(false);
   const [importPk, setImportPk] = useState("");
   const [importLabel, setImportLabel] = useState("");
-  const [removeTarget, setRemoveTarget] = useState<PortfolioWalletRow | null>(null);
+  const [removeTarget, setRemoveTarget] = useState<PortfolioWalletRow | null>(
+    null,
+  );
   const [pkModal, setPkModal] = useState<PortfolioWalletRow | null>(null);
 
   const addWallet = (row: PortfolioWalletRow) => {
@@ -162,14 +176,18 @@ export default function PortfolioWalletTab() {
 
   const handleRemove = () => {
     if (!removeTarget || removeTarget.isMain) return;
-    setWallets((prev) => prev.filter((w) => w.publicKey !== removeTarget.publicKey));
+    setWallets((prev) =>
+      prev.filter((w) => w.publicKey !== removeTarget.publicKey),
+    );
     setSelected((prev) => {
       const next = new Set(prev);
       next.delete(removeTarget.publicKey);
       return next;
     });
     if (focusWallet === removeTarget.publicKey) {
-      const rest = wallets.filter((w) => w.publicKey !== removeTarget.publicKey);
+      const rest = wallets.filter(
+        (w) => w.publicKey !== removeTarget.publicKey,
+      );
       setFocusWallet(rest[0]?.publicKey ?? "");
     }
     setRemoveTarget(null);
@@ -211,16 +229,22 @@ export default function PortfolioWalletTab() {
       <div className="flex-1 overflow-y-auto scrollbar-stable p-4 sm:p-5">
         <div className="max-w-6xl mx-auto space-y-3">
           <div>
-            <h2 className="text-lg font-semibold text-[#E8EDF5]" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <h2
+              className="text-lg font-semibold text-[#E8EDF5]"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               Wallet management
             </h2>
-            <p className="text-xs text-trench-label mt-1" style={{ fontFamily: "var(--font-jetbrains)" }}>
-              Ported from Caesarx portfolio IA — create, import, select, and act on balances (mock only; no chain calls).
+            <p
+              className="text-xs text-trench-label mt-1"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
+              Ported from Caesarx portfolio IA — create, import, select, and act
+              on balances (mock only; no chain calls).
             </p>
           </div>
 
           <div className="flex flex-col lg:flex-row rounded-xl border border-trench-line bg-trench-panel/50 overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] min-h-[420px]">
-            {/* —— Left: WalletManagerSection-style —— */}
             <div className="flex-1 flex flex-col min-w-0 min-h-[320px] lg:min-h-[420px]">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 border-b border-trench-line-subtle bg-trench-bg/80">
                 <div className="relative flex-1 max-w-md">
@@ -265,7 +289,10 @@ export default function PortfolioWalletTab() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-12 gap-2 px-3 py-2 border-b border-trench-line-subtle text-[9px] uppercase tracking-[0.1em] text-trench-dim bg-trench-bg/50" style={{ fontFamily: "var(--font-jetbrains)" }}>
+              <div
+                className="grid grid-cols-12 gap-2 px-3 py-2 border-b border-trench-line-subtle text-[9px] uppercase tracking-[0.1em] text-trench-dim bg-trench-bg/50"
+                style={{ fontFamily: "var(--font-jetbrains)" }}
+              >
                 <div className="col-span-5">Wallet</div>
                 <div className="col-span-3 text-right">Balance</div>
                 <div className="col-span-2 text-right">Tokens</div>
@@ -279,41 +306,71 @@ export default function PortfolioWalletTab() {
                     <div
                       key={w.publicKey}
                       className={`group relative grid grid-cols-12 gap-2 px-3 py-3 border-b border-trench-line-subtle cursor-pointer transition-colors ${
-                        focusWallet === w.publicKey ? "bg-trench-accent-soft/40" : "hover:bg-trench-raised-hover/80"
+                        focusWallet === w.publicKey
+                          ? "bg-trench-accent-soft/40"
+                          : "hover:bg-trench-raised-hover/80"
                       }`}
                       onClick={() => {
                         toggleSelect(w.publicKey);
                         setFocusWallet(w.publicKey);
                       }}
                     >
-                      <div className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-r ${isSel ? "bg-trench-accent" : "bg-transparent group-hover:bg-trench-line"}`} />
+                      <div
+                        className={`absolute left-0 top-0 bottom-0 w-0.5 rounded-r ${isSel ? "bg-trench-accent" : "bg-transparent group-hover:bg-trench-line"}`}
+                      />
                       <div className="col-span-5 flex items-center gap-2 min-w-0 pl-1">
                         <div
                           className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
-                            isSel ? "bg-trench-accent/25 border-trench-accent" : "border-trench-line"
+                            isSel
+                              ? "bg-trench-accent/25 border-trench-accent"
+                              : "border-trench-line"
                           }`}
                           aria-hidden
                         >
                           {isSel && (
-                            <svg className="w-2.5 h-2.5 text-trench-accent" fill="none" viewBox="0 0 12 12">
-                              <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                            <svg
+                              className="w-2.5 h-2.5 text-trench-accent"
+                              fill="none"
+                              viewBox="0 0 12 12"
+                            >
+                              <path
+                                d="M2 6l3 3 5-5"
+                                stroke="currentColor"
+                                strokeWidth="1.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
                             </svg>
                           )}
                         </div>
                         <div
                           className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                            isSel ? "bg-trench-accent/20 text-trench-accent" : "bg-trench-raised text-trench-label"
+                            isSel
+                              ? "bg-trench-accent/20 text-trench-accent"
+                              : "bg-trench-raised text-trench-label"
                           }`}
                         >
                           {w.label.charAt(0).toUpperCase()}
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1">
-                            {w.isMain && <IconStar className="text-amber-400 w-3 h-3 shrink-0" filled />}
-                            <span className={`text-[13px] font-medium truncate ${isSel ? "text-trench-accent" : "text-[#E8EDF5]"}`}>{w.label}</span>
+                            {w.isMain && (
+                              <IconStar
+                                className="text-amber-400 w-3 h-3 shrink-0"
+                                filled
+                              />
+                            )}
+                            <span
+                              className={`text-[13px] font-medium truncate ${isSel ? "text-trench-accent" : "text-[#E8EDF5]"}`}
+                            >
+                              {w.label}
+                            </span>
                           </div>
                           <div className="flex items-center gap-1 mt-0.5">
-                            <span className="text-[10px] text-trench-dim font-mono truncate" title={w.publicKey}>
+                            <span
+                              className="text-[10px] text-trench-dim font-mono truncate"
+                              title={w.publicKey}
+                            >
                               {truncatePk(w.publicKey)}
                             </span>
                             <button
@@ -331,18 +388,34 @@ export default function PortfolioWalletTab() {
                         </div>
                       </div>
                       <div className="col-span-3 text-right flex flex-col justify-center">
-                        <span className="text-[13px] font-semibold tabular-nums text-[#E8EDF5]" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                        <span
+                          className="text-[13px] font-semibold tabular-nums text-[#E8EDF5]"
+                          style={{ fontFamily: "var(--font-jetbrains)" }}
+                        >
                           {w.balance.toFixed(3)} SOL
                         </span>
-                        <span className="text-[10px] text-trench-dim tabular-nums">${(w.balance * SOL_PRICE_USD_MOCK).toFixed(2)}</span>
+                        <span className="text-[10px] text-trench-dim tabular-nums">
+                          ${(w.balance * SOL_PRICE_USD_MOCK).toFixed(2)}
+                        </span>
                       </div>
-                      <div className="col-span-2 text-right text-[13px] font-medium tabular-nums text-trench-label self-center">{w.tokenCount}</div>
-                      <div className="col-span-2 flex items-center justify-end gap-0.5 self-center" onClick={(e) => e.stopPropagation()}>
+                      <div className="col-span-2 text-right text-[13px] font-medium tabular-nums text-trench-label self-center">
+                        {w.tokenCount}
+                      </div>
+                      <div
+                        className="col-span-2 flex items-center justify-end gap-0.5 self-center"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <button
                           type="button"
                           className="p-1.5 rounded text-trench-dim hover:text-[#E8EDF5] hover:bg-trench-raised opacity-0 group-hover:opacity-100 transition-opacity"
                           title="Solscan"
-                          onClick={() => window.open(`https://solscan.io/account/${w.publicKey}`, "_blank", "noopener,noreferrer")}
+                          onClick={() =>
+                            window.open(
+                              `https://solscan.io/account/${w.publicKey}`,
+                              "_blank",
+                              "noopener,noreferrer",
+                            )
+                          }
                         >
                           <IconExternal />
                         </button>
@@ -381,7 +454,10 @@ export default function PortfolioWalletTab() {
                 {filtered.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-14 text-trench-dim gap-2">
                     <IconWallet className="w-10 h-10 opacity-40" />
-                    <p className="text-sm" style={{ fontFamily: "var(--font-dm-sans)" }}>
+                    <p
+                      className="text-sm"
+                      style={{ fontFamily: "var(--font-dm-sans)" }}
+                    >
                       No wallets match
                     </p>
                   </div>
@@ -389,12 +465,17 @@ export default function PortfolioWalletTab() {
               </div>
             </div>
 
-            <div className="hidden lg:block w-px bg-trench-line shrink-0" aria-hidden />
+            <div
+              className="hidden lg:block w-px bg-trench-line shrink-0"
+              aria-hidden
+            />
 
-            {/* —— Right: BalancePanel-style —— */}
             <div className="w-full lg:w-[min(100%,380px)] flex-shrink-0 flex flex-col border-t lg:border-t-0 border-trench-line bg-trench-bg/60">
               <div className="flex items-center justify-between gap-2 p-3 border-b border-trench-line-subtle">
-                <h3 className="text-[11px] font-semibold text-trench-label uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                <h3
+                  className="text-[11px] font-semibold text-trench-label uppercase tracking-wider"
+                  style={{ fontFamily: "var(--font-jetbrains)" }}
+                >
                   Balances ({selected.size}/{wallets.length})
                 </h3>
                 <div className="relative" ref={dropdownRef}>
@@ -405,9 +486,15 @@ export default function PortfolioWalletTab() {
                     style={{ fontFamily: "var(--font-jetbrains)" }}
                   >
                     <IconWallet className="text-trench-dim w-3.5 h-3.5" />
-                    <span className="truncate max-w-[100px]">{focused?.label ?? "—"}</span>
-                    <span className="text-trench-accent tabular-nums">${headlineUsd.toFixed(2)}</span>
-                    <IconChevronDown className={`text-trench-dim transition-transform shrink-0 ${dropdownOpen ? "rotate-180" : ""}`} />
+                    <span className="truncate max-w-[100px]">
+                      {focused?.label ?? "—"}
+                    </span>
+                    <span className="text-trench-accent tabular-nums">
+                      ${headlineUsd.toFixed(2)}
+                    </span>
+                    <IconChevronDown
+                      className={`text-trench-dim transition-transform shrink-0 ${dropdownOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   {dropdownOpen && (
                     <div className="absolute right-0 top-full mt-1 w-56 rounded-lg border border-trench-line bg-trench-panel shadow-xl z-20 max-h-56 overflow-y-auto">
@@ -416,7 +503,9 @@ export default function PortfolioWalletTab() {
                           key={w.publicKey}
                           type="button"
                           className={`w-full px-3 py-2 text-left text-[11px] hover:bg-trench-raised transition-colors ${
-                            focusWallet === w.publicKey ? "text-trench-accent bg-trench-accent-soft/30" : "text-[#E8EDF5]"
+                            focusWallet === w.publicKey
+                              ? "text-trench-accent bg-trench-accent-soft/30"
+                              : "text-[#E8EDF5]"
                           }`}
                           style={{ fontFamily: "var(--font-jetbrains)" }}
                           onClick={() => {
@@ -425,7 +514,9 @@ export default function PortfolioWalletTab() {
                           }}
                         >
                           <span className="block truncate">{w.label}</span>
-                          <span className="text-trench-dim tabular-nums">${(w.balance * SOL_PRICE_USD_MOCK).toFixed(2)}</span>
+                          <span className="text-trench-dim tabular-nums">
+                            ${(w.balance * SOL_PRICE_USD_MOCK).toFixed(2)}
+                          </span>
                         </button>
                       ))}
                     </div>
@@ -439,19 +530,30 @@ export default function PortfolioWalletTab() {
                     ◎
                   </div>
                   <div>
-                    <p className="text-[10px] text-trench-dim uppercase tracking-wider mb-1" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                    <p
+                      className="text-[10px] text-trench-dim uppercase tracking-wider mb-1"
+                      style={{ fontFamily: "var(--font-jetbrains)" }}
+                    >
                       {selected.size === 0
                         ? "No selection"
                         : selected.size === 1
                           ? "Wallet balance"
                           : `Selected total (${selected.size} wallets)`}
                     </p>
-                    <p className="text-2xl font-bold tabular-nums text-[#E8EDF5]" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                    <p
+                      className="text-2xl font-bold tabular-nums text-[#E8EDF5]"
+                      style={{ fontFamily: "var(--font-jetbrains)" }}
+                    >
                       {displaySol.toFixed(5)} SOL
                     </p>
-                    <p className="text-xs text-trench-label tabular-nums">~${displayUsd.toFixed(2)}</p>
+                    <p className="text-xs text-trench-label tabular-nums">
+                      ~${displayUsd.toFixed(2)}
+                    </p>
                     {selected.size > 1 && focused && (
-                      <p className="text-[10px] text-trench-dim mt-2" style={{ fontFamily: "var(--font-jetbrains)" }}>
+                      <p
+                        className="text-[10px] text-trench-dim mt-2"
+                        style={{ fontFamily: "var(--font-jetbrains)" }}
+                      >
                         Focus: {focused.label} · {headlineSol.toFixed(4)} SOL
                       </p>
                     )}
@@ -461,7 +563,9 @@ export default function PortfolioWalletTab() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => showToast("Receive — connect wallet in production")}
+                    onClick={() =>
+                      showToast("Receive — connect wallet in production")
+                    }
                     className="h-10 rounded-lg border border-trench-line bg-trench-raised text-[11px] font-semibold text-[#E8EDF5] hover:border-trench-accent/35 flex items-center justify-center gap-1.5 transition-colors"
                     style={{ fontFamily: "var(--font-jetbrains)" }}
                   >
@@ -470,7 +574,9 @@ export default function PortfolioWalletTab() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => showToast("Send — connect wallet in production")}
+                    onClick={() =>
+                      showToast("Send — connect wallet in production")
+                    }
                     className="h-10 rounded-lg border border-trench-line bg-trench-raised text-[11px] font-semibold text-trench-label hover:text-[#E8EDF5] hover:border-trench-accent/25 flex items-center justify-center gap-1.5 transition-colors"
                     style={{ fontFamily: "var(--font-jetbrains)" }}
                   >
@@ -495,8 +601,13 @@ export default function PortfolioWalletTab() {
                   </button>
                 </div>
 
-                <p className="text-[10px] text-trench-dim leading-relaxed" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                  Selection checkboxes drive the aggregate; focus wallet sets the right-hand headline. Matches Caesarx BalancePanel + WalletManagerSection behavior at a prototype level.
+                <p
+                  className="text-[10px] text-trench-dim leading-relaxed"
+                  style={{ fontFamily: "var(--font-jetbrains)" }}
+                >
+                  Selection checkboxes drive the aggregate; focus wallet sets
+                  the right-hand headline. Matches Caesarx BalancePanel +
+                  WalletManagerSection behavior at a prototype level.
                 </p>
               </div>
             </div>
@@ -504,17 +615,30 @@ export default function PortfolioWalletTab() {
         </div>
       </div>
 
-      {/* Create modal */}
       {createOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal>
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          role="dialog"
+          aria-modal
+        >
           <div className="w-full max-w-md rounded-xl border border-trench-line bg-trench-panel p-5 shadow-2xl">
-            <h3 className="text-sm font-semibold text-[#E8EDF5] mb-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <h3
+              className="text-sm font-semibold text-[#E8EDF5] mb-1"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               Create trading wallet
             </h3>
-            <p className="text-[10px] text-trench-dim mb-4" style={{ fontFamily: "var(--font-jetbrains)" }}>
-              Mock only — in Caesarx this calls <code className="text-trench-label">/wallets/live-create</code>.
+            <p
+              className="text-[10px] text-trench-dim mb-4"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
+              Mock only — in Caesarx this calls{" "}
+              <code className="text-trench-label">/wallets/live-create</code>.
             </p>
-            <label className="block text-[10px] text-trench-label mb-1" style={{ fontFamily: "var(--font-jetbrains)" }}>
+            <label
+              className="block text-[10px] text-trench-label mb-1"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
               Label
             </label>
             <input
@@ -526,7 +650,11 @@ export default function PortfolioWalletTab() {
               autoFocus
             />
             <div className="flex justify-end gap-2">
-              <button type="button" onClick={() => setCreateOpen(false)} className="px-3 py-2 text-[11px] text-trench-label hover:text-[#E8EDF5]">
+              <button
+                type="button"
+                onClick={() => setCreateOpen(false)}
+                className="px-3 py-2 text-[11px] text-trench-label hover:text-[#E8EDF5]"
+              >
                 Cancel
               </button>
               <button
@@ -542,15 +670,25 @@ export default function PortfolioWalletTab() {
         </div>
       )}
 
-      {/* Import modal */}
       {importOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal>
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          role="dialog"
+          aria-modal
+        >
           <div className="w-full max-w-md rounded-xl border border-trench-line bg-trench-panel p-5 shadow-2xl">
-            <h3 className="text-sm font-semibold text-[#E8EDF5] mb-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <h3
+              className="text-sm font-semibold text-[#E8EDF5] mb-1"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               Import wallet
             </h3>
-            <p className="text-[10px] text-trench-dim mb-4" style={{ fontFamily: "var(--font-jetbrains)" }}>
-              Prototype accepts any string; production encrypts and calls <code className="text-trench-label">/wallets/import</code>.
+            <p
+              className="text-[10px] text-trench-dim mb-4"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
+              Prototype accepts any string; production encrypts and calls{" "}
+              <code className="text-trench-label">/wallets/import</code>.
             </p>
             <input
               value={importLabel}
@@ -591,18 +729,32 @@ export default function PortfolioWalletTab() {
         </div>
       )}
 
-      {/* Remove confirm */}
       {removeTarget && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal>
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          role="dialog"
+          aria-modal
+        >
           <div className="w-full max-w-sm rounded-xl border border-trench-line bg-trench-panel p-5">
-            <h3 className="text-sm font-semibold text-[#E8EDF5] mb-2" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <h3
+              className="text-sm font-semibold text-[#E8EDF5] mb-2"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               Remove wallet?
             </h3>
-            <p className="text-[11px] text-trench-label mb-4" style={{ fontFamily: "var(--font-jetbrains)" }}>
-              Remove “{removeTarget.label}” from this list (mock). Caesarx keeps data for re-import.
+            <p
+              className="text-[11px] text-trench-label mb-4"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
+              Remove “{removeTarget.label}” from this list (mock). Caesarx keeps
+              data for re-import.
             </p>
             <div className="flex justify-end gap-2">
-              <button type="button" onClick={() => setRemoveTarget(null)} className="px-3 py-2 text-[11px] text-trench-label">
+              <button
+                type="button"
+                onClick={() => setRemoveTarget(null)}
+                className="px-3 py-2 text-[11px] text-trench-label"
+              >
                 Cancel
               </button>
               <button
@@ -618,19 +770,33 @@ export default function PortfolioWalletTab() {
         </div>
       )}
 
-      {/* Private key mock */}
       {pkModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" role="dialog" aria-modal>
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          role="dialog"
+          aria-modal
+        >
           <div className="w-full max-w-md rounded-xl border border-trench-line bg-trench-panel p-5">
-            <h3 className="text-sm font-semibold text-[#E8EDF5] mb-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <h3
+              className="text-sm font-semibold text-[#E8EDF5] mb-1"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               Private key
             </h3>
-            <p className="text-[10px] text-trench-dim mb-3" style={{ fontFamily: "var(--font-jetbrains)" }}>
+            <p
+              className="text-[10px] text-trench-dim mb-3"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
               Placeholder only — not fetched from a server in this build.
             </p>
-            <p className="text-[10px] text-trench-label mb-2 font-mono break-all">{pkModal.publicKey}</p>
+            <p className="text-[10px] text-trench-label mb-2 font-mono break-all">
+              {pkModal.publicKey}
+            </p>
             <div className="rounded-lg border border-trench-line bg-trench-bg p-3 text-[10px] font-mono text-trench-dim break-all">
-              {Array.from({ length: 8 }).map(() => "•").join("")}… (mock)
+              {Array.from({ length: 8 })
+                .map(() => "•")
+                .join("")}
+              … (mock)
             </div>
             <button
               type="button"

@@ -50,14 +50,11 @@ export default function RanksSection() {
       className="py-24 sm:py-32 bg-[#0C1018] border-y border-[#1C2535]"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Header */}
         <div className="mb-14 reveal">
           <p
             className="text-[#00FF85] text-xs uppercase tracking-[0.2em] mb-3"
             style={{ fontFamily: "var(--font-jetbrains)" }}
-          >
-            // Rewards System
-          </p>
+          ></p>
           <h2
             className="text-[#E8EDF5] leading-tight mb-3"
             style={{
@@ -73,12 +70,11 @@ export default function RanksSection() {
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
             Every swap earns you Gold. Higher rank = bigger multiplier on
-            everything you earn. Plus 5-tier referral commissions on every
-            trade your network makes.
+            everything you earn. Plus 5-tier referral commissions on every trade
+            your network makes.
           </p>
         </div>
 
-        {/* Ranks */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {RANKS.map((r, i) => (
             <div
@@ -88,7 +84,9 @@ export default function RanksSection() {
                   ? "border-[#FFB800]/40 bg-[#FFB800]/05"
                   : "border-[#1C2535] bg-[#060810] hover:border-[#2A3545]"
               }`}
-              style={r.active ? { backgroundColor: "rgba(255,184,0,0.04)" } : {}}
+              style={
+                r.active ? { backgroundColor: "rgba(255,184,0,0.04)" } : {}
+              }
             >
               {r.active && (
                 <span
@@ -138,7 +136,6 @@ export default function RanksSection() {
           ))}
         </div>
 
-        {/* Referral note */}
         <div className="mt-8 p-5 border border-[#1C2535] bg-[#060810] reveal">
           <div className="flex items-start gap-3">
             <span className="text-[#00FF85] text-lg mt-0.5">↗</span>

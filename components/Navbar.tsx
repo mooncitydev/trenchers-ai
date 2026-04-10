@@ -23,7 +23,9 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "border-b border-neutral-800/90 bg-black/85 backdrop-blur-md shadow-sm" : "bg-black"
+        scrolled
+          ? "border-b border-neutral-800/90 bg-black/85 backdrop-blur-md shadow-sm"
+          : "bg-black"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -48,7 +50,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-8">
           {links.map((l) => (
             <li key={l.href}>
@@ -63,7 +64,6 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* CTA */}
         <div className="hidden md:flex items-center gap-2 lg:gap-3">
           <Link
             href="/app"
@@ -75,13 +75,15 @@ export default function Navbar() {
           <Link
             href="#waitlist"
             className="btn-primary text-sm px-5 py-2.5"
-            style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}
+            style={{
+              clipPath:
+                "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))",
+            }}
           >
             Get Early Access
           </Link>
         </div>
 
-        {/* Mobile hamburger */}
         <button
           className="md:hidden flex flex-col gap-1.5 p-2"
           onClick={() => setOpen(!open)}
@@ -99,7 +101,6 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ${
           open ? "max-h-[22rem] border-b border-[#1C2535]" : "max-h-0"

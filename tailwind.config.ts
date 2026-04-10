@@ -18,7 +18,6 @@ const config: Config = {
         cyan: "#00D4FF",
         text: "#E8EDF5",
         muted: "#5A6478",
-        /** In-app terminal: calmer surfaces + readable grays (landing unchanged) */
         trench: {
           bg: "#080A0F",
           panel: "#0C1018",

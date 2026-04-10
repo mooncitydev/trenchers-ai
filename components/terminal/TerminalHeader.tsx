@@ -2,7 +2,14 @@
 import Link from "next/link";
 
 export type FilterTab = "all" | "new" | "trending" | "safe" | "watchlist";
-export type SortKey = "price" | "change1h" | "change24h" | "volume24h" | "mcap" | "holders" | "ageMinutes";
+export type SortKey =
+  | "price"
+  | "change1h"
+  | "change24h"
+  | "volume24h"
+  | "mcap"
+  | "holders"
+  | "ageMinutes";
 export type SortDir = "asc" | "desc";
 
 interface Props {
@@ -14,19 +21,26 @@ interface Props {
 }
 
 const TABS: { key: FilterTab; label: string }[] = [
-  { key: "all",       label: "All" },
-  { key: "new",       label: "New  <30m" },
-  { key: "trending",  label: "Trending 🔥" },
-  { key: "safe",      label: "✓ Safe" },
+  { key: "all", label: "All" },
+  { key: "new", label: "New  <30m" },
+  { key: "trending", label: "Trending 🔥" },
+  { key: "safe", label: "✓ Safe" },
   { key: "watchlist", label: "★ Watchlist" },
 ];
 
-export default function TerminalHeader({ activeTab, onTabChange, search, onSearch, tickCount }: Props) {
+export default function TerminalHeader({
+  activeTab,
+  onTabChange,
+  search,
+  onSearch,
+  tickCount,
+}: Props) {
   return (
-    <div className="border-b border-[#111822]" style={{ background: "#07090F" }}>
-      {/* Top bar */}
+    <div
+      className="border-b border-[#111822]"
+      style={{ background: "#07090F" }}
+    >
       <div className="flex items-center justify-between px-4 h-12 border-b border-[#111822]">
-        {/* Left: back + logo */}
         <div className="flex items-center gap-4">
           <Link
             href="/"
@@ -34,7 +48,13 @@ export default function TerminalHeader({ activeTab, onTabChange, search, onSearc
             style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px" }}
           >
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-              <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M10 3L5 8l5 5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
             Home
           </Link>
@@ -49,20 +69,31 @@ export default function TerminalHeader({ activeTab, onTabChange, search, onSearc
           </Link>
           <div className="w-px h-4 bg-[#1C2535]" />
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 border border-[#00FF85]/40 flex items-center justify-center"
-              style={{ background: "rgba(0,255,133,0.06)" }}>
-              <span className="text-[#00FF85] text-[9px] font-bold" style={{ fontFamily: "var(--font-jetbrains)" }}>T</span>
+            <div
+              className="w-5 h-5 border border-[#00FF85]/40 flex items-center justify-center"
+              style={{ background: "rgba(0,255,133,0.06)" }}
+            >
+              <span
+                className="text-[#00FF85] text-[9px] font-bold"
+                style={{ fontFamily: "var(--font-jetbrains)" }}
+              >
+                T
+              </span>
             </div>
-            <span className="text-[#8892A4] text-xs font-medium" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <span
+              className="text-[#8892A4] text-xs font-medium"
+              style={{ fontFamily: "var(--font-dm-sans)" }}
+            >
               TrenchersAI <span className="text-[#2A3545]">/ Terminal</span>
             </span>
           </div>
         </div>
 
-        {/* Right: live indicator + tick counter + search */}
         <div className="flex items-center gap-4">
-          {/* Tick counter */}
-          <div className="hidden sm:flex items-center gap-2" style={{ fontFamily: "var(--font-jetbrains)", fontSize: "10px" }}>
+          <div
+            className="hidden sm:flex items-center gap-2"
+            style={{ fontFamily: "var(--font-jetbrains)", fontSize: "10px" }}
+          >
             <span className="text-[#2A3545]">updates</span>
             <span
               className="text-[#00FF85] tabular-nums transition-all duration-150"
@@ -74,24 +105,42 @@ export default function TerminalHeader({ activeTab, onTabChange, search, onSearc
 
           <div className="w-px h-4 bg-[#1C2535] hidden sm:block" />
 
-          {/* Live dot */}
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF85] opacity-50" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF85]" />
             </span>
-            <span className="text-[#00FF85] text-[10px] uppercase tracking-wider" style={{ fontFamily: "var(--font-jetbrains)" }}>
+            <span
+              className="text-[#00FF85] text-[10px] uppercase tracking-wider"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
               Live
             </span>
           </div>
 
           <div className="w-px h-4 bg-[#1C2535]" />
 
-          {/* Search */}
           <div className="relative">
-            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#2A3545]" width="11" height="11" viewBox="0 0 16 16" fill="none">
-              <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <svg
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#2A3545]"
+              width="11"
+              height="11"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <circle
+                cx="7"
+                cy="7"
+                r="5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M11 11l3 3"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
             </svg>
             <input
               type="text"
@@ -105,7 +154,6 @@ export default function TerminalHeader({ activeTab, onTabChange, search, onSearc
         </div>
       </div>
 
-      {/* Filter tabs */}
       <div className="flex items-center px-4 overflow-x-auto scrollbar-none">
         {TABS.map((tab) => (
           <button
@@ -115,7 +163,8 @@ export default function TerminalHeader({ activeTab, onTabChange, search, onSearc
             style={{
               fontFamily: "var(--font-jetbrains)",
               color: activeTab === tab.key ? "#00FF85" : "#2A3545",
-              borderBottomColor: activeTab === tab.key ? "#00FF85" : "transparent",
+              borderBottomColor:
+                activeTab === tab.key ? "#00FF85" : "transparent",
             }}
           >
             {tab.label}

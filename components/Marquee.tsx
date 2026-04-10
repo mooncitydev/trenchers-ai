@@ -29,7 +29,6 @@ const STATS_TICKER = [
 export default function Marquee() {
   return (
     <div className="border-y border-[#1C2535] bg-[#0C1018] py-0 overflow-hidden">
-      {/* Top row — platforms */}
       <div className="flex border-b border-[#1C2535] py-3 overflow-hidden">
         <div className="flex animate-ticker-left whitespace-nowrap gap-0">
           {[...PLATFORMS, ...PLATFORMS].map((name, i) => (
@@ -45,7 +44,6 @@ export default function Marquee() {
         </div>
       </div>
 
-      {/* Bottom row — live stats */}
       <div className="flex py-3 overflow-hidden">
         <div className="flex animate-ticker-right whitespace-nowrap gap-0">
           {[...STATS_TICKER, ...STATS_TICKER].map((s, i) => (

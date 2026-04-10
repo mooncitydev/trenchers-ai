@@ -11,14 +11,23 @@ interface Props {
   onToggleFilter: () => void;
 }
 
-export default function WalletList({ wallets, selectedId, onSelect, onToggleTrack, filterTracked, onToggleFilter }: Props) {
+export default function WalletList({
+  wallets,
+  selectedId,
+  onSelect,
+  onToggleTrack,
+  filterTracked,
+  onToggleFilter,
+}: Props) {
   const visible = filterTracked ? wallets.filter((w) => w.tracked) : wallets;
 
   return (
     <div className="flex flex-col border-r border-trench-line-subtle overflow-hidden bg-trench-bg w-[320px] min-w-[280px]">
-      {/* Panel header */}
       <div className="flex items-center justify-between px-4 h-11 border-b border-trench-line-subtle flex-shrink-0 bg-trench-panel/90">
-        <span className="text-[10px] uppercase tracking-[0.12em] text-trench-label font-medium" style={{ fontFamily: "var(--font-jetbrains)" }}>
+        <span
+          className="text-[10px] uppercase tracking-[0.12em] text-trench-label font-medium"
+          style={{ fontFamily: "var(--font-jetbrains)" }}
+        >
           Wallets ({visible.length})
         </span>
         <button
@@ -35,14 +44,16 @@ export default function WalletList({ wallets, selectedId, onSelect, onToggleTrac
         </button>
       </div>
 
-      {/* List */}
       <div className="flex-1 overflow-y-auto scrollbar-stable">
         {visible.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-44 gap-2 px-4 text-center">
             <span className="text-trench-dim text-xl" aria-hidden>
               ∅
             </span>
-            <p className="text-trench-dim text-xs" style={{ fontFamily: "var(--font-jetbrains)" }}>
+            <p
+              className="text-trench-dim text-xs"
+              style={{ fontFamily: "var(--font-jetbrains)" }}
+            >
               No wallets match this filter
             </p>
           </div>
@@ -59,7 +70,6 @@ export default function WalletList({ wallets, selectedId, onSelect, onToggleTrac
         )}
       </div>
 
-      {/* Add wallet input */}
       <div className="px-3 py-3 border-t border-trench-line-subtle flex-shrink-0 bg-trench-panel/90">
         <div className="flex gap-2">
           <input

@@ -58,7 +58,6 @@ export default function HowItWorks() {
           </h2>
         </div>
 
-        {/* Desktop: connectors only sit between 01 — 02 — 03 (no overrun past 03) */}
         <div className="hidden lg:block">
           <div className="flex items-center w-full gap-4 mb-6">
             {STEPS.map((step, i) => (
@@ -98,7 +97,6 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        {/* Mobile / tablet: stacked */}
         <div className="lg:hidden space-y-10">
           {STEPS.map((step, i) => (
             <div

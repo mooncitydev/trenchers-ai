@@ -3,10 +3,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TABS = [
-  { label: "Terminal",  href: "/terminal"      },
-  { label: "Tracker",   href: "/tracker"        },
-  { label: "Portfolio", href: "/portfolio"      },
-  { label: "Sniper",    href: "/sniper"         },
+  { label: "Terminal", href: "/terminal" },
+  { label: "Tracker", href: "/tracker" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Sniper", href: "/sniper" },
 ];
 
 interface Props {
@@ -21,7 +21,6 @@ export default function ToolNav({ rightSlot }: Props) {
       className="flex items-center justify-between px-4 h-11 border-b border-[#111822] flex-shrink-0"
       style={{ background: "#07090F" }}
     >
-      {/* Left: home + tabs */}
       <div className="flex items-center">
         <Link
           href="/"
@@ -29,7 +28,13 @@ export default function ToolNav({ rightSlot }: Props) {
           style={{ fontFamily: "var(--font-jetbrains)", fontSize: "11px" }}
         >
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-            <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M10 3L5 8l5 5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           Home
         </Link>
@@ -55,7 +60,6 @@ export default function ToolNav({ rightSlot }: Props) {
         </div>
       </div>
 
-      {/* Right: slot + logo */}
       <div className="flex items-center gap-4">
         {rightSlot}
         <span
