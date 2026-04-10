@@ -1,82 +1,78 @@
-# TrenchersAI Landing Page
+# TrenchersAI
 
-> The AI-powered Solana trading terminal that never sleeps.
+Marketing site and interactive product prototypes for an AI-assisted Solana trading terminal. Built with **Next.js 14** (App Router), **TypeScript**, **Tailwind CSS**, and **Framer Motion**, with a mobile-first layout and a dark, terminal-inspired visual language.
 
-Built with **Next.js 14 App Router**, **TypeScript**, and **Tailwind CSS**.
-Designed for mobile-first, performance-focused delivery with a dark tactical aesthetic.
+## Prerequisites
 
----
+- Node.js 18+
+- npm (or pnpm / yarn)
 
-## 🚀 Quick Start
+## Getting started
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/trenchers-landing.git
+git clone <repository-url>
 cd trenchers-landing
-
-# 2. Install dependencies
 npm install
-
-# 3. Run dev server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000).
 
----
+## Scripts
 
-## 📁 Project Structure
+| Command | Description |
+|--------|-------------|
+| `npm run dev` | Development server with hot reload |
+| `npm run build` | Production build (includes lint and typecheck) |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Run ESLint |
+
+## Project structure
 
 ```
 trenchers-landing/
 ├── app/
-│   ├── layout.tsx          # Root layout, fonts, metadata
-│   ├── page.tsx            # Main page (assembles all sections)
-│   └── globals.css         # Design tokens, animations, utilities
+│   ├── layout.tsx, page.tsx, globals.css   # Marketing landing
+│   ├── app/                                  # In-app shell (/app/*)
+│   │   ├── layout.tsx
+│   │   ├── page.tsx                          # Terminal home
+│   │   ├── portfolio/, sniper/, tracker/
+│   │   ├── terminal/
+│   │   └── token/[mint]/                     # Token detail + trade UI
+│   ├── portfolio/, sniper/, tracker/         # Public tool entry routes
+│   ├── token/[mint]/
+│   └── whale-tracker/
 ├── components/
-│   ├── Navbar.tsx          # Sticky nav with mobile drawer
-│   ├── Hero.tsx            # Above-fold hero (5-second clarity)
-│   ├── Marquee.tsx         # Platform + stats ticker
-│   ├── OverviewSection.tsx # 3 core feature highlights
-│   ├── ToolsGrid.tsx       # 6 tools feature cards
-│   ├── HowItWorks.tsx      # 3-step onboarding
-│   ├── RanksSection.tsx    # Bronze → Titan rewards
-│   ├── WaitlistSection.tsx # Email early access CTA
-│   ├── Footer.tsx          # Links, status indicator
-│   └── ScrollReveal.tsx    # Intersection Observer for fade-ins
-├── vercel.json             # Vercel deployment config
+│   ├── app-shell/                            # App chrome, trust strip
+│   ├── portfolio/                            # Portfolio + wallet tab (mock)
+│   ├── sniper/
+│   ├── terminal/                             # Token table, simulators, motion
+│   ├── token-detail/                         # Detail + trade panel
+│   ├── tool-shell/                           # Shared tool header / nav
+│   ├── whale-tracker/
+│   └── …                                     # Landing sections (Hero, Navbar, etc.)
+├── lib/                                      # Shared helpers (e.g. token imagery)
 ├── tailwind.config.ts
 ├── next.config.ts
 └── tsconfig.json
 ```
 
----
+## Technical notes
 
-## 🎨 Design Decisions
+- **Styling:** Tailwind with project-specific tokens (see `globals.css` and `tailwind.config.ts`). Fonts are wired in `app/layout.tsx` and exposed as CSS variables.
+- **Motion:** Framer Motion is used for route and section transitions where it improves perceived quality; prefer lightweight patterns on list-heavy views.
+- **Data:** Prototype screens use simulated or static data unless wired to a backend.
+- **Token trade panel:** The trade UI on the token detail route is loaded with `next/dynamic` and `ssr: false` to defer a heavier client bundle and keep the first paint lean.
 
-| Decision | Choice | Why |
-|---|---|---|
-| Color | `#060810` bg + `#00FF85` accent | Dark tactical terminal — matches Axiom/GMGN energy |
-| Display font | Bebas Neue | Aggressive, condensed — crypto-native |
-| Mono font | JetBrains Mono | Terminal authenticity for data/code |
-| Body font | DM Sans | Readable, clean on mobile |
-| Layout | Mobile-first, max-w-6xl | Most degens are on phones |
-| Animations | CSS-only (no JS libs) | Performance — no blocking bundles |
-| CTA | Single "Get Early Access" | Clear answer to "what do I do next?" |
+## Deployment
 
----
+The app is compatible with [Vercel](https://vercel.com) and other Node hosts that support Next.js.
 
-## ⚡ Deploying to Vercel
+1. Push the repository to your Git provider.
+2. Import the project in Vercel; the framework preset should detect Next.js.
+3. Deploy with default build command `npm run build` and output handled by Next.
 
-### Option A — One-click from GitHub
-
-1. Push this repo to GitHub
-2. Go to [vercel.com/new](https://vercel.com/new)
-3. Import your GitHub repo
-4. Vercel auto-detects Next.js — click **Deploy**
-5. Done ✓
-
-### Option B — Vercel CLI
+CLI alternative:
 
 ```bash
 npm i -g vercel
@@ -84,44 +80,12 @@ vercel login
 vercel --prod
 ```
 
----
+## Customization
 
-## 🔧 Customisation
+- **Waitlist:** Replace the mock submit handler in `components/WaitlistSection.tsx` with a call to your API (e.g. `POST /api/waitlist`).
+- **Branding:** Adjust accent and surface colors in `globals.css` and align `tailwind.config.ts` if you add new semantic tokens.
+- **Fonts:** Change Google Font imports and CSS variables in `app/layout.tsx` / `globals.css` as needed.
 
-### Update waitlist form
-In `components/WaitlistSection.tsx`, replace the mock timeout with your real API:
+## License
 
-```typescript
-// Replace this:
-await new Promise((r) => setTimeout(r, 900));
-
-// With your endpoint:
-await fetch('/api/waitlist', {
-  method: 'POST',
-  body: JSON.stringify({ email }),
-  headers: { 'Content-Type': 'application/json' },
-});
-```
-
-### Change fonts
-Fonts are loaded in `app/layout.tsx` via Google Fonts. Update the `href` to swap fonts.
-CSS variables `--font-bebas`, `--font-jetbrains`, `--font-dm-sans` in `globals.css` control usage.
-
-### Swap accent color
-Change `--green: #00FF85` in `globals.css` and update `tailwind.config.ts` to match.
-
----
-
-## 📊 Performance Targets
-
-- Lighthouse Performance: **90+** (mobile)
-- Lighthouse Accessibility: **95+**
-- LCP: **< 2.5s**
-- No layout shift from font loading (uses `display=swap`)
-- No client-side JS on static sections (only Navbar + Waitlist are `"use client"`)
-
----
-
-## 📜 License
-
-MIT — built for TrenchersAI.
+MIT.
