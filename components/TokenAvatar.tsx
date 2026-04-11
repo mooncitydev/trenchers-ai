@@ -4,7 +4,10 @@ import Image from "next/image";
 
 import { useCallback, useState } from "react";
 
-import { memeFileStem } from "@/lib/tokenMemeImages";
+import {
+  memeFileStem,
+  TOKEN_MEME_IMAGE_ASSETS_ENABLED,
+} from "@/lib/tokenMemeImages";
 
 const EXT = ["jpg", "png", "webp", "jpeg"] as const;
 
@@ -45,7 +48,7 @@ export default function TokenAvatar({
 
   const stem = memeFileStem(imageIndex);
 
-  const exhausted = extI >= EXT.length;
+  const exhausted = extI >= EXT.length || !TOKEN_MEME_IMAGE_ASSETS_ENABLED;
 
   const src = exhausted ? null : `/assets/${stem}.${EXT[extI]}`;
 

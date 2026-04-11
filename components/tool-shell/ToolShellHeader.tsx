@@ -24,7 +24,7 @@ interface Props {
 export default function ToolShellHeader({ active, title, subtitle }: Props) {
   return (
     <header className="flex flex-col border-b border-trench-line-subtle flex-shrink-0 bg-trench-bg/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between px-3 sm:px-5 h-12 sm:h-[52px] gap-3">
+      <div className="flex items-center justify-between px-4 sm:px-5 h-12 sm:h-[52px] gap-2 sm:gap-3">
         <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <Link
             href="/"

@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import { Token } from "./useTokenSimulator";
 import { TokenRow } from "./TokenRow";
+import { TERMINAL_TABLE_GRID } from "./terminalTableGrid";
 
 type SortKey =
   | "price"
@@ -26,34 +27,55 @@ interface ColDef {
   key: SortKey | null;
   label: string;
   align: "left" | "right" | "center";
-  width: string;
 }
 
 const COLUMNS: ColDef[] = [
-  { key: null, label: "#", align: "left", width: "28px" },
-  { key: null, label: "Token", align: "left", width: "1fr" },
-  { key: "price", label: "Price", align: "right", width: "110px" },
-  { key: "change1h", label: "1h %", align: "right", width: "80px" },
-  { key: "change24h", label: "24h %", align: "right", width: "80px" },
-  { key: "volume24h", label: "Volume", align: "right", width: "90px" },
-  { key: "mcap", label: "MCap", align: "right", width: "90px" },
-  { key: "holders", label: "Holders", align: "right", width: "72px" },
-  { key: null, label: "★", align: "center", width: "56px" },
-  { key: null, label: "", align: "right", width: "56px" },
+  { key: null, label: "#", align: "left" },
+  { key: null, label: "Token", align: "left" },
+  { key: "price", label: "Price", align: "right" },
+  { key: "change1h", label: "1h %", align: "right" },
+  { key: "change24h", label: "24h %", align: "right" },
+  { key: "volume24h", label: "Vol", align: "right" },
+  { key: "mcap", label: "MCap", align: "right" },
+  { key: "holders", label: "Hold", align: "right" },
+  { key: null, label: "★", align: "center" },
+  { key: null, label: "", align: "right" },
 ];
 
-const GRID_COLS = COLUMNS.map((c) => c.width).join(" ");
-
-function SkeletonRow({ i }: { i: number }) {
+function SkeletonRowMobile({ i }: { i: number }) {
   return (
     <div
-      className="grid items-center px-4 h-12 border-b border-trench-line-subtle"
-      style={{ gridTemplateColumns: GRID_COLS }}
+      className="md:hidden px-3 py-3 border-b border-trench-line-subtle animate-pulse"
+      style={{ animationDelay: `${i * 40}ms` }}
+    >
+      <div className="flex gap-3 mb-3">
+        <div className="h-3 w-5 rounded bg-[#141C28]" />
+        <div className="h-9 w-9 rounded-full bg-[#141C28] shrink-0" />
+        <div className="flex-1 space-y-2">
+          <div className="h-3 w-[min(100%,140px)] rounded bg-[#141C28]" />
+          <div className="h-2 w-24 rounded bg-[#141C28]/80" />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="h-8 rounded bg-[#141C28]/90" />
+        <div className="h-8 rounded bg-[#141C28]/90" />
+        <div className="h-8 rounded bg-[#141C28]/90" />
+        <div className="h-8 rounded bg-[#141C28]/90" />
+      </div>
+    </div>
+  );
+}
+
+function SkeletonRowDesktop({ i }: { i: number }) {
+  return (
+    <div
+      className="hidden md:grid items-center px-4 h-12 border-b border-trench-line-subtle"
+      style={{ gridTemplateColumns: TERMINAL_TABLE_GRID }}
     >
       {COLUMNS.map((_, j) => (
         <div
           key={j}
-          className={`h-3 rounded animate-pulse ${j === 0 ? "w-4" : j === 1 ? "w-24" : "w-12 ml-auto"}`}
+          className={`h-3 rounded animate-pulse ${j === 0 ? "w-4" : j === 1 ? "w-24 max-w-full" : "w-12 ml-auto"}`}
           style={{ background: "#141C28", animationDelay: `${i * 40}ms` }}
         />
       ))}
@@ -103,8 +125,18 @@ export default function TokenTable({
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
       <div
-        className="grid items-center px-4 h-10 border-b border-trench-line-subtle flex-shrink-0 bg-trench-panel/80"
-        style={{ gridTemplateColumns: GRID_COLS }}
+        className="md:hidden px-3 sm:px-4 py-2.5 border-b border-trench-line-subtle flex-shrink-0 bg-trench-panel/80 flex items-center justify-between gap-2"
+        style={{ fontFamily: "var(--font-jetbrains)" }}
+      >
+        <span className="text-[9px] uppercase tracking-[0.14em] text-trench-dim">
+          Tokens
+        </span>
+        <span className="text-[9px] text-trench-dim/90">Tap row for detail</span>
+      </div>
+
+      <div
+        className="hidden md:grid items-center px-4 h-10 border-b border-trench-line-subtle flex-shrink-0 bg-trench-panel/80"
+        style={{ gridTemplateColumns: TERMINAL_TABLE_GRID }}
       >
         {COLUMNS.map((col, i) => (
           <button
@@ -132,7 +164,10 @@ export default function TokenTable({
       <div className="flex-1 overflow-y-auto scrollbar-stable bg-trench-bg">
         {loading ? (
           Array.from({ length: 15 }).map((_, i) => (
-            <SkeletonRow key={i} i={i} />
+            <div key={i}>
+              <SkeletonRowMobile i={i} />
+              <SkeletonRowDesktop i={i} />
+            </div>
           ))
         ) : visible.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-52 gap-3 px-4">

@@ -25,8 +25,8 @@ export default function TerminalToolbar({
 }: Props) {
   return (
     <div className="border-b border-trench-line-subtle flex-shrink-0 bg-trench-bg">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-3 sm:py-0 sm:h-14 border-b border-trench-line-subtle">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 sm:px-5 py-3 sm:py-0 sm:h-14 border-b border-trench-line-subtle">
+        <div className="min-w-0">
           <span
             className="text-trench-label text-xs font-medium block"
             style={{ fontFamily: "var(--font-dm-sans)" }}
@@ -40,9 +40,9 @@ export default function TerminalToolbar({
             Solana · simulated feed
           </span>
         </div>
-        <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-end">
+        <div className="flex flex-col gap-2.5 w-full sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-4 sm:w-auto">
           <div
-            className="hidden sm:flex items-center gap-2"
+            className="hidden sm:flex items-center gap-2 shrink-0"
             style={{ fontFamily: "var(--font-jetbrains)", fontSize: "10px" }}
           >
             <span className="text-trench-dim">Row updates</span>
@@ -53,8 +53,8 @@ export default function TerminalToolbar({
               {tickCount.toLocaleString()}
             </span>
           </div>
-          <div className="w-px h-4 bg-trench-line hidden sm:block" />
-          <div className="flex items-center gap-2">
+          <div className="hidden sm:block w-px h-4 bg-trench-line shrink-0" />
+          <div className="flex items-center gap-2 shrink-0 sm:order-none">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-trench-accent opacity-40" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-trench-accent" />
@@ -66,8 +66,8 @@ export default function TerminalToolbar({
               Live
             </span>
           </div>
-          <div className="w-px h-4 bg-trench-line" />
-          <div className="relative flex-1 sm:flex-initial min-w-0 max-w-[220px]">
+          <div className="hidden sm:block w-px h-4 bg-trench-line shrink-0" />
+          <div className="relative w-full min-w-0 sm:max-w-[240px] sm:flex-shrink-0">
             <svg
               className="absolute left-3 top-1/2 -translate-y-1/2 text-trench-dim pointer-events-none"
               width="12"
@@ -95,7 +95,7 @@ export default function TerminalToolbar({
               placeholder="Filter by name…"
               value={search}
               onChange={(e) => onSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 rounded-md bg-trench-panel border border-trench-line text-[#E8EDF5] text-[11px] outline-none focus:border-trench-accent/35 focus:ring-1 focus:ring-trench-accent/20 transition-all placeholder:text-trench-dim"
+              className="w-full min-w-0 pl-9 pr-3 py-2.5 sm:py-2 rounded-md bg-trench-panel border border-trench-line text-[#E8EDF5] text-[11px] outline-none focus:border-trench-accent/35 focus:ring-1 focus:ring-trench-accent/20 transition-all placeholder:text-trench-dim"
               style={{ fontFamily: "var(--font-jetbrains)" }}
             />
           </div>

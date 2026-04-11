@@ -1,5 +1,8 @@
 export const TOKEN_MEME_COUNT = 29;
 
+export const TOKEN_MEME_IMAGE_ASSETS_ENABLED =
+  process.env.NEXT_PUBLIC_TOKEN_MEME_IMAGES === "true";
+
 export function memeFileIndex(imageIndex: number): number {
   const n = imageIndex % TOKEN_MEME_COUNT;
   return n < 0 ? n + TOKEN_MEME_COUNT : n;

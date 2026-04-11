@@ -35,10 +35,13 @@ export default function TerminalStats({ tokens }: Props) {
   ];
 
   return (
-    <div className="flex items-center overflow-x-auto scrollbar-none border-b border-trench-line-subtle bg-trench-panel/90">
-      {items.map((item, i) => (
-        <div key={item.label} className="flex items-center">
-          <div className="flex flex-col px-4 sm:px-5 py-3 flex-shrink-0 min-w-[100px]">
+    <div className="border-b border-trench-line-subtle bg-trench-panel/90">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:flex-nowrap lg:items-stretch lg:overflow-x-auto lg:scrollbar-none gap-px bg-trench-line-subtle p-px lg:p-0 lg:gap-0">
+        {items.map((item) => (
+          <div
+            key={item.label}
+            className="flex flex-col px-3 py-2.5 sm:px-4 sm:py-3 bg-trench-panel/90 lg:min-w-[100px] lg:flex-shrink-0 lg:border-r lg:border-trench-line-subtle lg:last:border-r-0 lg:px-5"
+          >
             <span
               className="text-[9px] uppercase tracking-[0.14em] text-trench-dim mb-1"
               style={{ fontFamily: "var(--font-jetbrains)" }}
@@ -46,17 +49,14 @@ export default function TerminalStats({ tokens }: Props) {
               {item.label}
             </span>
             <span
-              className="text-[13px] font-semibold tabular-nums tracking-tight"
+              className="text-[12px] sm:text-[13px] font-semibold tabular-nums tracking-tight break-words line-clamp-2"
               style={{ fontFamily: "var(--font-jetbrains)", color: item.color }}
             >
               {item.value}
             </span>
           </div>
-          {i < items.length - 1 && (
-            <div className="w-px h-9 bg-trench-line-subtle flex-shrink-0" />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
